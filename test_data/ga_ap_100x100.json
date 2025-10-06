@@ -20419,7 +20419,7 @@
     "population_size": 100,
     "generations": 100,
     "parent_selection": {
-      "selection_type": "tournament_nsga2",
+      "parent_selection_type": "nsga2",
       "tournament_size": 4
     },
     "crossover": {
@@ -20429,6 +20429,9 @@
     "mutation": {
       "mutation_type": "swap",
       "mutation_probability": 0.1
+    },
+    "survivor_selection": {
+        "survivor_selection_type": "nsga2"
     }
   }
 }

@@ -5,4 +5,4 @@ from pydantic import BaseModel
 
 
 class SurvivorSelectionBase(ABC, BaseModel):
-    survivor_selection_type: Literal['age', 'nsga2']
+    survivor_selection_type: Literal['offspring', 'nsga2']
