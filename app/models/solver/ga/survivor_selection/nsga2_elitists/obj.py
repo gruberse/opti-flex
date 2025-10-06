@@ -111,21 +111,21 @@ def fast_non_dominated_sorting(individuals: List[Individual]) -> Generator[list[
 
 class NSGA2BasedElitistsSelection(NSGA2basedElitistsSelectionBase, SurvivorSelection):
 
-    def select_survivors(self, parents: List[Individual], offspring: List[Individual]) -> List[NSGA2Individual]:
+    def select_survivors(self, population_size: int, individuals: List[Individual]) -> List[NSGA2Individual]:
         survivors: List[NSGA2Individual] = []
 
-        generator_non_dominated_sorting = fast_non_dominated_sorting(parents + offspring)
+        generator_non_dominated_sorting = fast_non_dominated_sorting(individuals)
 
-        while len(survivors) < len(offspring):
+        while len(survivors) < population_size:
             current_front = next(generator_non_dominated_sorting)
 
-            if len(survivors) + len(current_front) <= len(offspring):
+            if len(survivors) + len(current_front) <= population_size:
                 survivors.extend(current_front)
 
             else:
                 # select the best solutions based on the crowding distance
                 current_front.sort(key=lambda individual: individual.crowding_distance, reverse=True)
-                n_remaining_individuals = len(offspring) - len(survivors)
+                n_remaining_individuals = population_size - len(survivors)
                 survivors.extend(current_front[:n_remaining_individuals])
 
         return survivors

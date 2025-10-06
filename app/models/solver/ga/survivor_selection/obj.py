@@ -7,5 +7,5 @@ from app.models.solver.ga.survivor_selection.base import SurvivorSelectionBase
 
 class SurvivorSelection(SurvivorSelectionBase):
     @abstractmethod
-    def select_survivors(self, parents: List[Individual], offspring: List[Individual]) -> list:
+    def select_survivors(self, population_size: int, individuals: List[Individual]) -> List[Individual]:
         pass

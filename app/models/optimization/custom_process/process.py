@@ -14,6 +14,7 @@ class Process(multiprocessing.Process):
             self._cconn.send(None)
         except Exception as e:
             tb = traceback.format_exc()
+            print(f"Exception occurred: {tb}")
             self._cconn.send((e, tb))
 
     @property

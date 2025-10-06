@@ -10,6 +10,7 @@ from app.models.population.obj import Population
 from app.models.problem.obj import Problem
 from app.models.solver.ga.base import GeneticAlgorithmBase
 from app.models.solver.ga.crossover.obj import Crossover
+from app.models.solver.ga.fitness_evaluation.obj import FitnessEvaluation
 from app.models.solver.ga.mutation.obj import Mutation
 from app.models.solver.ga.parent_selection.obj import ParentSelection
 from app.models.solver.ga.survivor_selection.obj import SurvivorSelection
@@ -20,6 +21,7 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
     parent_selection: ParentSelection
     crossover: Crossover
     mutation: Mutation
+    fitness_evaluation: FitnessEvaluation
     survivor_selection: SurvivorSelection
 
     def solve(self, problem: Problem, population_queue: multiprocessing.Queue, populations: List) -> None:
@@ -33,60 +35,50 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             np.random.seed(self.random_seed)
 
         # create the initial population
-        current_population = Population(population_id=0, start_time=datetime.now())
+        population = Population(population_id=0, start_time=datetime.now())
 
         candidates = []
         for _ in range(self.population_size):
             candidates.append(Individual(encoding=random.sample(gene_space, problem_size)))
 
         # calculate the fitness of the initial population
-        candidates = problem.evaluate_individuals(candidates)
+        candidates = self.fitness_evaluation.evaluate_individuals(problem, [], candidates)
 
         # survivor selection
-        survivors = self.survivor_selection.select_survivors([], candidates)
+        survivors = self.survivor_selection.select_survivors(self.population_size, candidates)
 
-        current_population.individuals = survivors
-        current_population.end_time = datetime.now()
-        populations.append(current_population)
+        population.individuals = survivors
+        population.end_time = datetime.now()
+        populations.append(population)
 
-        population_queue.put(current_population.population_id)
-
-        previous_population = current_population
+        population_queue.put(population.population_id)
 
         # main loop
-        for population_id in range(1, self.generations):
+        for population_id in range(1, self.generations + 1):
             # initialize the next generation
-            current_population = Population(population_id=population_id, start_time=datetime.now())
+            population = Population(population_id=population_id, start_time=datetime.now())
 
             # select the parents
-            parents = self.parent_selection.select_parents(survivors)
+            selected_parents = self.parent_selection.select_parents(survivors)
 
             # apply crossover
-            offspring = self.crossover.crossover_parents(parents)
+            offspring = self.crossover.crossover_parents(selected_parents)
 
             # apply mutation
             offspring = self.mutation.mutate_offspring(offspring)
 
-            # keep non dominated individuals in the offspring
-            if self.keep_best_individuals:
-                non_dominated_individuals = previous_population.get_non_dominated_individuals()
-                replacement_indices = sorted(random.sample(range(len(offspring) + 1), k=len(non_dominated_individuals)))
-                for j, i in enumerate(replacement_indices):
-                    offspring[i] = non_dominated_individuals[j]
-
             # calculate the fitness of the generational
-            offspring = problem.evaluate_individuals(offspring)
+            # offspring = problem.evaluate_individuals(offspring)
+            evaluated_individuals = self.fitness_evaluation.evaluate_individuals(problem, populations[-1].individuals, offspring)
 
             # survivor selection
-            survivors = self.survivor_selection.select_survivors(previous_population.individuals, offspring)
+            survivors = self.survivor_selection.select_survivors(self.population_size, evaluated_individuals)
 
-            current_population.individuals = survivors
-            current_population.end_time = datetime.now()
+            population.individuals = survivors
+            population.end_time = datetime.now()
 
-            populations.append(current_population)
-            population_queue.put(current_population.population_id)
-
-            previous_population = current_population
+            populations.append(population)
+            population_queue.put(population.population_id)
 
         # stop the population process
         population_queue.put(None)
