@@ -32,11 +32,8 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             random.seed(self.random_seed)
             np.random.seed(self.random_seed)
 
-        # set the generation counter
-        current_generation = 0
-
         # create the initial population
-        population = Population(population_id=current_generation, start_time=datetime.now())
+        population = Population(population_id=0, start_time=datetime.now())
 
         candidates = []
         for _ in range(self.population_size):
@@ -55,12 +52,9 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
         population_queue.put(population.population_id)
 
         # main loop
-        while current_generation < self.generations:
-            # increase the generation counter
-            current_generation += 1
-
+        for population_id in range(1, self.generations):
             # initialize the next generation
-            population = Population(population_id=current_generation, start_time=datetime.now())
+            population = Population(population_id=population_id, start_time=datetime.now())
 
             # select the parents
             parents = self.parent_selection.select_parents(survivors)
@@ -71,7 +65,7 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             # apply mutation
             offspring = self.mutation.mutate_offspring(offspring)
 
-            # calculate the fitness of the offspring
+            # calculate the fitness of the generational
             offspring = problem.evaluate_individuals(offspring)
 
             # survivor selection

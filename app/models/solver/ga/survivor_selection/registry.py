@@ -1,12 +1,12 @@
 from app.models.base_mapper import BaseMapper
-from app.models.solver.ga.survivor_selection.offspring.mapper import OffspringSelectionMapper
-from app.models.solver.ga.survivor_selection.nsga2.mapper import NSGA2SurvivorSelectionMapper
+from app.models.solver.ga.survivor_selection.generational.mapper import GenerationalSelectionMapper
+from app.models.solver.ga.survivor_selection.nsga2_elitists.mapper import NSGA2basedElitistsSelectionMapper
 
 
 class SurvivorSelectionMapperRegistry:
     _mapper_registry: dict[str, BaseMapper] = {
-        "offspring": OffspringSelectionMapper,
-        "nsga2": NSGA2SurvivorSelectionMapper,
+        "generational": GenerationalSelectionMapper,
+        "nsga2_elitists": NSGA2basedElitistsSelectionMapper,
     }
 
 

@@ -4,7 +4,7 @@ import numpy as np
 
 from app.models.individual.obj import Individual
 
-from app.models.solver.ga.survivor_selection.nsga2.base import NSGA2SurvivorSelectionBase
+from app.models.solver.ga.survivor_selection.nsga2_elitists.base import NSGA2basedElitistsSelectionBase
 from app.models.solver.ga.survivor_selection.obj import SurvivorSelection
 
 
@@ -21,7 +21,7 @@ class NSGA2Individual(Individual):
         )
 
 
-def _calculate_crowding_distances(individuals: List[NSGA2Individual]) -> List[NSGA2Individual]:
+def calculate_crowding_distances(individuals: List[NSGA2Individual]) -> List[NSGA2Individual]:
     for i in range(len(individuals[0].fitness_list)):
         fitness_values = np.array(
             [individual.fitness_list[i].get_estimated_or_actual_fitness() for individual in individuals]
@@ -46,7 +46,7 @@ def _calculate_crowding_distances(individuals: List[NSGA2Individual]) -> List[NS
     return individuals
 
 
-def _fast_non_dominated_sorting(individuals: List[Individual]) -> Generator[list[NSGA2Individual], Any, None]:
+def fast_non_dominated_sorting(individuals: List[Individual]) -> Generator[list[NSGA2Individual], Any, None]:
     nsga2_individuals = []
 
     for individual in individuals:
@@ -100,7 +100,7 @@ def _fast_non_dominated_sorting(individuals: List[Individual]) -> Generator[list
                     q.rank = current_front_idx + 1
                     next_front.append(q)
 
-        current_front = _calculate_crowding_distances(current_front)
+        current_front = calculate_crowding_distances(current_front)
 
         yield current_front
 
@@ -109,12 +109,12 @@ def _fast_non_dominated_sorting(individuals: List[Individual]) -> Generator[list
 
 
 
-class NSGA2SurvivorSelection(NSGA2SurvivorSelectionBase, SurvivorSelection):
+class NSGA2BasedElitistsSelection(NSGA2basedElitistsSelectionBase, SurvivorSelection):
 
     def select_survivors(self, parents: List[Individual], offspring: List[Individual]) -> List[NSGA2Individual]:
         survivors: List[NSGA2Individual] = []
 
-        generator_non_dominated_sorting = _fast_non_dominated_sorting(parents + offspring)
+        generator_non_dominated_sorting = fast_non_dominated_sorting(parents + offspring)
 
         while len(survivors) < len(offspring):
             current_front = next(generator_non_dominated_sorting)

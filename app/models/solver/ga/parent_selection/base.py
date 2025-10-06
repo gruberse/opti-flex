@@ -5,4 +5,4 @@ from pydantic import BaseModel
 
 
 class ParentSelectionBase(ABC, BaseModel):
-    parent_selection_type: Literal['tournament', 'nsga2']
+    parent_selection_type: Literal['tournament', 'nsga2_tournament']
