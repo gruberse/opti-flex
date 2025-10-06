@@ -1,8 +1,8 @@
 from typing import Any
 
 from app.models.base_mapper import BaseMapper
-from app.models.solver.ga.survivor_selection.age_based.dto import AgeBasedSelectionDTO
-from app.models.solver.ga.survivor_selection.age_based.obj import AgeBasedSelection
+from app.models.solver.ga.survivor_selection.age.dto import AgeBasedSelectionDTO
+from app.models.solver.ga.survivor_selection.age.obj import AgeBasedSelection
 
 
 class AgeBasedSelectionMapper(BaseMapper):

@@ -1,7 +1,7 @@
 from typing import List
 
 from app.models.individual.obj import Individual
-from app.models.solver.ga.survivor_selection.age_based.base import AgeBasedSelectionBase
+from app.models.solver.ga.survivor_selection.age.base import AgeBasedSelectionBase
 from app.models.solver.ga.survivor_selection.obj import SurvivorSelection
 
 

@@ -2,12 +2,12 @@ import random
 from typing import List
 
 from app.models.individual.obj import Individual
-from app.models.solver.ga.parent_selection.nsga2_tournament.base import NSGA2TournamentSelectionBase
+from app.models.solver.ga.parent_selection.nsga2.base import NSGA2ParentSelectionBase
 from app.models.solver.ga.parent_selection.obj import ParentSelection
 from app.models.solver.ga.survivor_selection.nsga2.obj import NSGA2Individual
 
 
-class NSGA2TournamentSelection(NSGA2TournamentSelectionBase, ParentSelection):
+class NSGA2ParentSelection(NSGA2ParentSelectionBase, ParentSelection):
     def select_parents(self, individuals: List[NSGA2Individual]) -> List[Individual]:
         parent_individuals = []
         population_size = len(individuals)

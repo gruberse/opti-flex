@@ -11,14 +11,14 @@ from app.models.solver.ga.mutation.inversion.dto import InversionMutationDTO
 from app.models.solver.ga.mutation.scramble.dto import ScrambleMutationDTO
 from app.models.solver.ga.mutation.shift.dto import ShiftMutationDTO
 from app.models.solver.ga.mutation.swap.dto import SwapMutationDTO
-from app.models.solver.ga.parent_selection.nsga2_tournament.dto import NSGA2TournamentSelectionDTO
+from app.models.solver.ga.parent_selection.nsga2.dto import NSGA2ParentSelectionDTO
 from app.models.solver.ga.parent_selection.tournament.dto import TournamentSelectionDTO
-from app.models.solver.ga.survivor_selection.age_based.dto import AgeBasedSelectionDTO
-from app.models.solver.ga.survivor_selection.nsga2.dto import NSGA2SelectionDTO
+from app.models.solver.ga.survivor_selection.age.dto import AgeBasedSelectionDTO
+from app.models.solver.ga.survivor_selection.nsga2.dto import NSGA2SurvivorSelectionDTO
 
 
 class GeneticAlgorithmDTO(GeneticAlgorithmBase, SolverDTO):
-    parent_selection: Union[TournamentSelectionDTO, NSGA2TournamentSelectionDTO]
+    parent_selection: Union[TournamentSelectionDTO, NSGA2ParentSelectionDTO]
     crossover: Union[OrderCrossoverDTO, PartiallyMatchedCrossoverDTO, UniformOrderBasedCrossoverDTO, CycleCrossoverDTO]
     mutation: Union[InversionMutationDTO, InsertMutationDTO, ScrambleMutationDTO, ShiftMutationDTO, SwapMutationDTO]
-    survivor_selection: Union[AgeBasedSelectionDTO, NSGA2SelectionDTO]
+    survivor_selection: Union[AgeBasedSelectionDTO, NSGA2SurvivorSelectionDTO]

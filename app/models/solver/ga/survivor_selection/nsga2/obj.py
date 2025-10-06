@@ -4,7 +4,7 @@ import numpy as np
 
 from app.models.individual.obj import Individual
 
-from app.models.solver.ga.survivor_selection.nsga2.base import NSGA2SelectionBase
+from app.models.solver.ga.survivor_selection.nsga2.base import NSGA2SurvivorSelectionBase
 from app.models.solver.ga.survivor_selection.obj import SurvivorSelection
 
 
@@ -109,7 +109,7 @@ def _fast_non_dominated_sorting(individuals: List[Individual]) -> Generator[list
 
 
 
-class NSGA2Selection(NSGA2SelectionBase, SurvivorSelection):
+class NSGA2SurvivorSelection(NSGA2SurvivorSelectionBase, SurvivorSelection):
 
     def select_survivors(self, parents: List[Individual], offspring: List[Individual]) -> List[NSGA2Individual]:
         survivors: List[NSGA2Individual] = []
