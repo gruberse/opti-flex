@@ -33,7 +33,7 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             np.random.seed(self.random_seed)
 
         # create the initial population
-        population = Population(population_id=0, start_time=datetime.now())
+        current_population = Population(population_id=0, start_time=datetime.now())
 
         candidates = []
         for _ in range(self.population_size):
@@ -45,16 +45,18 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
         # survivor selection
         survivors = self.survivor_selection.select_survivors([], candidates)
 
-        population.individuals = survivors
-        population.end_time = datetime.now()
-        populations.append(population)
+        current_population.individuals = survivors
+        current_population.end_time = datetime.now()
+        populations.append(current_population)
 
-        population_queue.put(population.population_id)
+        population_queue.put(current_population.population_id)
+
+        previous_population = current_population
 
         # main loop
         for population_id in range(1, self.generations):
             # initialize the next generation
-            population = Population(population_id=population_id, start_time=datetime.now())
+            current_population = Population(population_id=population_id, start_time=datetime.now())
 
             # select the parents
             parents = self.parent_selection.select_parents(survivors)
@@ -65,17 +67,26 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             # apply mutation
             offspring = self.mutation.mutate_offspring(offspring)
 
+            # keep non dominated individuals in the offspring
+            if self.keep_best_individuals:
+                non_dominated_individuals = previous_population.get_non_dominated_individuals()
+                replacement_indices = sorted(random.sample(range(len(offspring) + 1), k=len(non_dominated_individuals)))
+                for j, i in enumerate(replacement_indices):
+                    offspring[i] = non_dominated_individuals[j]
+
             # calculate the fitness of the generational
             offspring = problem.evaluate_individuals(offspring)
 
             # survivor selection
-            survivors = self.survivor_selection.select_survivors(parents, offspring)
+            survivors = self.survivor_selection.select_survivors(previous_population.individuals, offspring)
 
-            population.individuals = survivors
-            population.end_time = datetime.now()
+            current_population.individuals = survivors
+            current_population.end_time = datetime.now()
 
-            populations.append(population)
-            population_queue.put(population.population_id)
+            populations.append(current_population)
+            population_queue.put(current_population.population_id)
+
+            previous_population = current_population
 
         # stop the population process
         population_queue.put(None)

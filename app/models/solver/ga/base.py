@@ -9,6 +9,8 @@ class GeneticAlgorithmBase(ABC, BaseModel):
     generations: int
     population_size: int
 
+    keep_best_individuals: bool = False
+
     random_seed: Optional[int] = None
 
     @model_validator(mode='after')

@@ -19,6 +19,7 @@ class GeneticAlgorithmMapper(BaseMapper):
             crossover=CrossoverMapperRegistry.get_mapper(obj.crossover.crossover_type).to_dto(obj=obj.crossover),
             mutation=MutationMapperRegistry.get_mapper(obj.mutation.mutation_type).to_dto(obj=obj.mutation),
             survivor_selection=SurvivorSelectionMapperRegistry.get_mapper(obj.survivor_selection.survivor_selection_type).to_dto(obj=obj.survivor_selection),
+            keep_best_individuals=obj.keep_best_individuals,
             random_seed=obj.random_seed,
         )
 
@@ -31,5 +32,6 @@ class GeneticAlgorithmMapper(BaseMapper):
             crossover=CrossoverMapperRegistry.get_mapper(dto.crossover.crossover_type).from_dto(dto=dto.crossover),
             mutation=MutationMapperRegistry.get_mapper(dto.mutation.mutation_type).from_dto(dto=dto.mutation),
             survivor_selection=SurvivorSelectionMapperRegistry.get_mapper(dto.survivor_selection.survivor_selection_type).from_dto(dto=dto.survivor_selection),
+            keep_best_individuals=dto.keep_best_individuals,
             random_seed=dto.random_seed,
         )
