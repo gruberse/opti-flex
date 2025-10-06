@@ -1,0 +1,70 @@
+{
+  "problem": {
+    "problem_type": "tsp",
+    "objectives": [
+      {
+        "objective_id": "1",
+        "distances": [
+          [
+            0,
+            -2,
+            -4,
+            -6,
+            -8
+          ],
+          [
+            -10,
+            0,
+            -12,
+            -14,
+            -16
+          ],
+          [
+            -18,
+            -20,
+            0,
+            -22,
+            -24
+          ],
+          [
+            -26,
+            -28,
+            -30,
+            0,
+            -32
+          ],
+          [
+            -17,
+            -18,
+            -19,
+            -20,
+            0
+          ]
+        ]
+      }
+    ]
+  },
+  "solver": {
+    "solver_type": "ga",
+    "population_size": 20,
+    "generations": 5,
+    "parent_selection": {
+      "parent_selection_type": "tournament",
+      "tournament_size": 2
+    },
+    "crossover": {
+      "crossover_type": "pmx",
+      "crossover_probability": 0.7
+    },
+    "mutation": {
+      "mutation_type": "swap",
+      "mutation_probability": 0.1
+    },
+    "fitness_evaluation": {
+        "fitness_evaluation_type": "offspring"
+    },
+    "survivor_selection": {
+        "survivor_selection_type": "elitists"
+    }
+  }
+}

@@ -14,19 +14,17 @@ class TravelingSalesmanProblem(TravelingSalesmanProblemBase, Problem):
     def __init__(self, /, **data):
         super().__init__(**data)
 
-        self.nodes = sorted(self.nodes, key=lambda node: node.node_id)
-
         for objective in self.objectives:
             objective.init_evaluation_setup()
 
     def update_result(self, individuals: List[Individual]) -> None:
         self.result_tours = [
-            Tour(cities=individual.cities, fitness_list=individual.fitness_list)
+            Tour(cities=individual.encoding, fitness_list=individual.fitness_list)
             for individual in individuals
         ]
 
     def get_problem_size(self) -> int:
-        return len(self.nodes)
+        return self.objectives[0].matrix.shape[0]
 
     def get_gene_space(self) -> List[int]:
-        return list(range(len(self.nodes)))
+        return list(range(self.objectives[0].matrix.shape[0]))

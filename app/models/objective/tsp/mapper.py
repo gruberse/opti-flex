@@ -31,7 +31,7 @@ class TravelingSalesmanProblemObjectiveMapper(BaseMapper):
 
         return TravelingSalesmanProblemObjective(
             objective_id=dto.objective_id,
-            matrix=np.array(dto.weights, dtype=np.int64),
+            matrix=np.array(dto.distances, dtype=np.int64),
             obfuscation=obfuscation,
             privacy_engine=dto.privacy_engine,
             encoding_url = dto.encoding_url,
