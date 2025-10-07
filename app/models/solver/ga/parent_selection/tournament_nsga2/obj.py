@@ -30,42 +30,34 @@ class NSGA2BasedTournamentSelection(NSGA2basedTournamentSelectionBase, ParentSel
 
         for _ in range(n_parents):
             participant_indices = random.sample(range(len(nsga2_individuals)), self.tournament_size)
-            print(f'participant indices: {participant_indices}')
 
             # select the participant individuals
             participant_individuals = [nsga2_individuals[i] for i in participant_indices]
-            print(f'participant individuals: {participant_individuals}')
 
             # identify the min rank of the participants
             min_rank = min([individual.rank for individual in participant_individuals])
-            print(f'min rank: {min_rank}')
 
             # identify the individuals of the participants with the min rank
             best_participant_individuals = [
                 individual for individual in participant_individuals
                 if individual.rank == min_rank
             ]
-            print(f'best participant individuals: {best_participant_individuals}')
 
             if len(best_participant_individuals) > 1:
                 # identify the max crowding distance of the best individuals
                 max_crowding_distance = max(
                     individual.crowding_distance for individual in best_participant_individuals)
-                print(f'max crowding distance: {max_crowding_distance}')
 
                 # identify the individuals of the best individuals with the max crowding distance
                 best_participant_individuals = [
                     individual for individual in best_participant_individuals
                     if individual.crowding_distance == max_crowding_distance
                 ]
-                print(f'best participant individuals: {best_participant_individuals}')
 
             # randomly select one of the best participant individuals
             selected_individual = random.choice(best_participant_individuals)
-            print(f'selected individual: {selected_individual}')
 
             parent_individuals.append(selected_individual.to_individual())
-            print(f'parent_individuals: {parent_individuals}')
 
         return parent_individuals
 
@@ -91,3 +83,7 @@ def test():
     assert parents[0] == individuals[4].to_individual()
     assert parents[1] == individuals[0].to_individual()
     assert parents[2] == individuals[3].to_individual()
+
+    assert isinstance(parents[0], NSGA2Individual) == False
+    assert isinstance(parents[1], NSGA2Individual) == False
+    assert isinstance(parents[2], NSGA2Individual) == False
