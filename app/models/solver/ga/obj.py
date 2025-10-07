@@ -59,7 +59,7 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             population = Population(population_id=population_id, start_time=datetime.now())
 
             # select the parents
-            selected_parents = self.parent_selection.select_parents(survivors)
+            selected_parents = self.parent_selection.select_parents(survivors, self.population_size)
 
             # apply crossover
             offspring = self.crossover.crossover_parents(selected_parents)

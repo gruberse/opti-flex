@@ -8,12 +8,16 @@ from app.models.solver.ga.parent_selection.tournament.base import TournamentSele
 
 
 class TournamentSelection(TournamentSelectionBase, ParentSelection):
-    def select_parents(self, individuals: List[Individual]) -> List[Individual]:
-        parent_individuals = []
-        population_size = len(individuals)
 
-        for _ in range(population_size):
-            participant_indices = random.sample(range(population_size), self.tournament_size)
+    def select_parents(self, individuals: List[Individual], n_parents: int) -> List[Individual]:
+
+        if 1 < len(individuals[0].fitness_list):
+            raise RuntimeError('tournament selection can only be used for single-objective optimization')
+
+        parent_individuals = []
+
+        for _ in range(n_parents):
+            participant_indices = random.sample(range(len(individuals)), self.tournament_size)
 
             # select the participant individuals
             participant_individuals = [individuals[i] for i in participant_indices]
@@ -26,8 +30,8 @@ class TournamentSelection(TournamentSelectionBase, ParentSelection):
 
             # identify the individuals of the participants with the max fitness
             best_participant_individuals = [
-                solution for solution in participant_individuals
-                if solution.fitness_list[0].get_estimated_or_actual_fitness() == max_fitness
+                individual for individual in participant_individuals
+                if individual.fitness_list[0].get_estimated_or_actual_fitness() == max_fitness
             ]
 
             # randomly select one of the best participant individuals
@@ -39,17 +43,20 @@ class TournamentSelection(TournamentSelectionBase, ParentSelection):
 
 
 def test():
-    ts = TournamentSelection(tournament_size=6)
+    s = TournamentSelection(tournament_size=2)
 
     individuals = [
-        Individual(encoding=[], fitness_list=[Fitness(objective_id='test', actual_fitness=100)]),
-        Individual(encoding=[], fitness_list=[Fitness(objective_id='test', actual_fitness=90)]),
-        Individual(encoding=[], fitness_list=[Fitness(objective_id='test', actual_fitness=80)]),
-        Individual(encoding=[], fitness_list=[Fitness(objective_id='test', actual_fitness=70)]),
-        Individual(encoding=[], fitness_list=[Fitness(objective_id='test', actual_fitness=60)]),
-        Individual(encoding=[], fitness_list=[Fitness(objective_id='test', actual_fitness=50)]),
+        Individual(encoding=[0], fitness_list=[Fitness(objective_id='test', actual_fitness=100)]),
+        Individual(encoding=[1], fitness_list=[Fitness(objective_id='test', actual_fitness=90)]),
+        Individual(encoding=[2], fitness_list=[Fitness(objective_id='test', actual_fitness=80)]),
+        Individual(encoding=[3], fitness_list=[Fitness(objective_id='test', actual_fitness=70)]),
+        Individual(encoding=[4], fitness_list=[Fitness(objective_id='test', actual_fitness=90)]),
+        Individual(encoding=[5], fitness_list=[Fitness(objective_id='test', actual_fitness=50)]),
     ]
 
-    parents = ts.select_parents(individuals)
-    for parent in parents:
-        assert parent == individuals[0]
+    random.seed(1)
+
+    parents = s.select_parents(individuals, 2)
+
+    assert parents[0] == individuals[1]
+    assert parents[1] == individuals[0]

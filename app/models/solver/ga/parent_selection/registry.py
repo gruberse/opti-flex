@@ -1,14 +1,14 @@
 import enum
 
 from app.models.base_mapper import BaseMapper
-from app.models.solver.ga.parent_selection.nsga2_tournament.mapper import NSGA2BasedTournamentSelectionMapper
+from app.models.solver.ga.parent_selection.tournament_nsga2.mapper import NSGA2BasedTournamentSelectionMapper
 from app.models.solver.ga.parent_selection.tournament.mapper import TournamentSelectionMapper
 
 
 class ParentSelectionMapperRegistry:
     _mapper_registry: dict[str, BaseMapper] = {
         "tournament": TournamentSelectionMapper,
-        "nsga2_tournament": NSGA2BasedTournamentSelectionMapper,
+        "tournament_nsga2": NSGA2BasedTournamentSelectionMapper,
     }
 
 

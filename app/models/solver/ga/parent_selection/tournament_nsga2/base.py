@@ -5,5 +5,5 @@ from pydantic import BaseModel
 
 
 class NSGA2basedTournamentSelectionBase(ABC, BaseModel):
-    parent_selection_type: Literal['nsga2_tournament'] = 'nsga2_tournament'
+    parent_selection_type: Literal['tournament_nsga2'] = 'tournament_nsga2'
     tournament_size: int = 2

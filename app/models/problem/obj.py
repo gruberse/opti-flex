@@ -9,7 +9,6 @@ from ..objective.obj import Objective
 
 
 class Problem(ProblemBase):
-    # will be overwritten by concrete objectives in subclasses
     objectives: List[Objective]
 
     def evaluate_individuals(self, individuals: List[Individual]) -> List[Individual]:
@@ -18,12 +17,12 @@ class Problem(ProblemBase):
         with concurrent.futures.ThreadPoolExecutor() as executor:
             futures = {executor.submit(objective.get_evaluation_result, individuals): objective for objective in self.objectives}
 
-            # Once the future is completed, the assignment is stored in the dictionary with the objective_id as the key
+            # Once the future is completed, the fitness is stored in the dictionary with the objective_id as the key
             for future in concurrent.futures.as_completed(futures):
                 objective = futures[future]
                 fitness_dict_population[objective.objective_id] = future.result()
 
-        # Assign the fitness objects to the population for each solution
+        # assign the fitness objects to the population for each individual
         for i, individual in enumerate(individuals):
             individual.fitness_list = [fitness_dict_population[objective.objective_id][i] for objective in self.objectives]
 

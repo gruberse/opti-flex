@@ -7,5 +7,5 @@ from app.models.solver.ga.parent_selection.base import ParentSelectionBase
 
 class ParentSelection(ParentSelectionBase):
     @abstractmethod
-    def select_parents(self, individuals: List[Individual]) -> List[Individual]:
+    def select_parents(self, individuals: List[Individual], n_parents: int) -> List[Individual]:
         pass

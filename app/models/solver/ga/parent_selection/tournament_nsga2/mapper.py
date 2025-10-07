@@ -1,8 +1,8 @@
 from typing import Any
 
 from app.models.base_mapper import BaseMapper
-from app.models.solver.ga.parent_selection.nsga2_tournament.dto import NSGA2BasedTournamentSelectionDTO
-from app.models.solver.ga.parent_selection.nsga2_tournament.obj import NSGA2BasedTournamentSelection
+from app.models.solver.ga.parent_selection.tournament_nsga2.dto import NSGA2BasedTournamentSelectionDTO
+from app.models.solver.ga.parent_selection.tournament_nsga2.obj import NSGA2BasedTournamentSelection
 
 
 class NSGA2BasedTournamentSelectionMapper(BaseMapper):
