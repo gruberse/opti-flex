@@ -2,23 +2,23 @@ from typing import List
 
 from app.models.fitness.obj import Fitness
 from app.models.individual.obj import Individual
-from app.models.solver.ga.survivor_selection.elitists.base import ElitistsSelectionBase
+from app.models.solver.ga.survivor_selection.best.base import BestIndividualsSelectionBase
 from app.models.solver.ga.survivor_selection.obj import SurvivorSelection
 
 
-class ElitistsSelection(ElitistsSelectionBase, SurvivorSelection):
+class BestIndividualsSelection(BestIndividualsSelectionBase, SurvivorSelection):
 
     def select_survivors(self, individuals: List[Individual], population_size: int) -> List[Individual]:
 
         if 1 < len(individuals[0].fitness_list):
-            raise RuntimeError('elitists selection can only be used for single-objective optimization')
+            raise RuntimeError('best individuals selection can only be used for single-objective optimization')
 
         individuals.sort(key=lambda individual: individual.fitness_list[0].get_estimated_or_actual_fitness(), reverse=True)
         return individuals[:population_size]
 
 
 def test():
-    s = ElitistsSelection()
+    s = BestIndividualsSelection()
     population_size = 2
 
     individuals = [

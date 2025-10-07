@@ -3,7 +3,6 @@ from typing import Any
 from app.models.base_mapper import BaseMapper
 from app.models.solver.ga.crossover.registry import CrossoverMapperRegistry
 from app.models.solver.ga.dto import GeneticAlgorithmDTO
-from app.models.solver.ga.fitness_evaluation.registry import FitnessEvaluationMapperRegistry
 from app.models.solver.ga.mutation.registry import MutationMapperRegistry
 from app.models.solver.ga.obj import GeneticAlgorithm
 from app.models.solver.ga.parent_selection.registry import ParentSelectionMapperRegistry
@@ -16,10 +15,10 @@ class GeneticAlgorithmMapper(BaseMapper):
         return GeneticAlgorithmDTO(
             generations=obj.generations,
             population_size=obj.population_size,
+            re_evaluate=obj.re_evaluate,
             parent_selection=ParentSelectionMapperRegistry.get_mapper(obj.parent_selection.parent_selection_type).to_dto(obj=obj.parent_selection),
             crossover=CrossoverMapperRegistry.get_mapper(obj.crossover.crossover_type).to_dto(obj=obj.crossover),
             mutation=MutationMapperRegistry.get_mapper(obj.mutation.mutation_type).to_dto(obj=obj.mutation),
-            fitness_evaluation=FitnessEvaluationMapperRegistry.get_mapper(obj.fitness_evaluation.fitness_evaluation_type).to_dto(obj=obj.fitness_evaluation),
             survivor_selection=SurvivorSelectionMapperRegistry.get_mapper(obj.survivor_selection.survivor_selection_type).to_dto(obj=obj.survivor_selection),
             random_seed=obj.random_seed,
         )
@@ -29,10 +28,10 @@ class GeneticAlgorithmMapper(BaseMapper):
         return GeneticAlgorithm(
             generations=dto.generations,
             population_size=dto.population_size,
+            re_evaluate=dto.re_evaluate,
             parent_selection=ParentSelectionMapperRegistry.get_mapper(dto.parent_selection.parent_selection_type).from_dto(dto=dto.parent_selection),
             crossover=CrossoverMapperRegistry.get_mapper(dto.crossover.crossover_type).from_dto(dto=dto.crossover),
             mutation=MutationMapperRegistry.get_mapper(dto.mutation.mutation_type).from_dto(dto=dto.mutation),
-            fitness_evaluation=FitnessEvaluationMapperRegistry.get_mapper(dto.fitness_evaluation.fitness_evaluation_type).from_dto(dto=dto.fitness_evaluation),
             survivor_selection=SurvivorSelectionMapperRegistry.get_mapper(dto.survivor_selection.survivor_selection_type).from_dto(dto=dto.survivor_selection),
             random_seed=dto.random_seed,
         )

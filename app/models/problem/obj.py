@@ -29,8 +29,7 @@ class Problem(ProblemBase):
         return individuals
 
     def evaluate_individual(self, individual: Individual) -> Individual:
-        for objective in self.objectives:
-            individual.fitness_list.append(objective.get_fitness(encoding=individual.encoding))
+        individual.fitness_list = [objective.get_fitness(encoding=individual.encoding) for objective in self.objectives]
         return individual
 
     @abstractmethod

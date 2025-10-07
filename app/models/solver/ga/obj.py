@@ -10,7 +10,6 @@ from app.models.population.obj import Population
 from app.models.problem.obj import Problem
 from app.models.solver.ga.base import GeneticAlgorithmBase
 from app.models.solver.ga.crossover.obj import Crossover
-from app.models.solver.ga.fitness_evaluation.obj import FitnessEvaluation
 from app.models.solver.ga.mutation.obj import Mutation
 from app.models.solver.ga.parent_selection.obj import ParentSelection
 from app.models.solver.ga.survivor_selection.obj import SurvivorSelection
@@ -21,7 +20,6 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
     parent_selection: ParentSelection
     crossover: Crossover
     mutation: Mutation
-    fitness_evaluation: FitnessEvaluation
     survivor_selection: SurvivorSelection
 
     def solve(self, problem: Problem, population_queue: multiprocessing.Queue, populations: List) -> None:
@@ -42,7 +40,7 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             candidates.append(Individual(encoding=random.sample(gene_space, problem_size)))
 
         # calculate the fitness of the initial population
-        candidates = self.fitness_evaluation.evaluate_individuals(problem, [], candidates)
+        candidates = problem.evaluate_individuals(candidates)
 
         # survivor selection
         survivors = self.survivor_selection.select_survivors(candidates, self.population_size)
@@ -67,9 +65,28 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             # apply mutation
             offspring = self.mutation.mutate_offspring(offspring)
 
-            # calculate the fitness of the generational
-            # offspring = problem.evaluate_individuals(offspring)
-            evaluated_individuals = self.fitness_evaluation.evaluate_individuals(problem, populations[-1].individuals, offspring)
+            # calculate the fitness of individuals
+            # this mechanism allows to use elitism despite obfuscation
+            # the estimated fitness depends on the composition of the population
+            # re-evaluation of the parent population allows for a better comparison with the offspring
+
+            # default = generational replacement
+            evaluation_individuals = offspring
+
+            # plus selection
+            if self.re_evaluate == 'parents':
+                evaluation_individuals = evaluation_individuals + populations[-1].individuals
+            # elitist injection
+            elif self.re_evaluate == 'elitists':
+                # retrieve non dominated individuals (elitists) of the parent population
+                non_dominated_individuals = populations[-1].non_dominated_individuals if populations[
+                    -1].non_dominated_individuals else populations[-1].get_non_dominated_individuals()
+                # randomly replace offspring individuals with the elitists of the parent population
+                indices = sorted(random.sample(range(len(offspring) + 1), len(non_dominated_individuals)))
+                for i, idx in enumerate(indices):
+                    evaluation_individuals[idx] = non_dominated_individuals[i]
+
+            evaluated_individuals = problem.evaluate_individuals(evaluation_individuals)
 
             # survivor selection
             survivors = self.survivor_selection.select_survivors(evaluated_individuals, self.population_size)

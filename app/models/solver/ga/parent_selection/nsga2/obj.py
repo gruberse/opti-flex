@@ -3,36 +3,25 @@ from typing import List
 
 from app.models.fitness.obj import Fitness
 from app.models.individual.obj import Individual
-from app.models.solver.ga.custom.nsga2 import NSGA2
-from app.models.solver.ga.parent_selection.tournament_nsga2.base import NSGA2basedTournamentSelectionBase
+from app.models.solver.ga.custom.nsga2 import NSGA2Individual
+from app.models.solver.ga.parent_selection.nsga2.base import NSGA2ParentSelectionBase
 from app.models.solver.ga.parent_selection.obj import ParentSelection
-from app.models.solver.ga.survivor_selection.elitists_nsga2.obj import NSGA2Individual
 
 
-class NSGA2BasedTournamentSelection(NSGA2basedTournamentSelectionBase, ParentSelection):
+class NSGA2ParentSelection(NSGA2ParentSelectionBase, ParentSelection):
 
-    def select_parents(self, individuals: List[Individual], n_parents: int) -> List[Individual]:
+    def select_parents(self, individuals: List[NSGA2Individual], n_parents: int) -> List[Individual]:
 
         if len(individuals[0].fitness_list) < 2:
             raise RuntimeError('nsga2 tournament selection can only be used for multi-objective optimization')
 
         parent_individuals = []
 
-        # perform non dominated sorting if necessary
-        nsga2_individuals = []
-        if isinstance(individuals[0], NSGA2Individual):
-            nsga2_individuals = individuals
-        else:
-            generator_non_dominated_sorting = NSGA2.fast_non_dominated_sorting(individuals)
-            while len(nsga2_individuals) < len(individuals):
-                current_front = next(generator_non_dominated_sorting)
-                nsga2_individuals.extend(current_front)
-
         for _ in range(n_parents):
-            participant_indices = random.sample(range(len(nsga2_individuals)), self.tournament_size)
+            participant_indices = random.sample(range(len(individuals)), self.tournament_size)
 
             # select the participant individuals
-            participant_individuals = [nsga2_individuals[i] for i in participant_indices]
+            participant_individuals = [individuals[i] for i in participant_indices]
 
             # identify the min rank of the participants
             min_rank = min([individual.rank for individual in participant_individuals])
@@ -62,7 +51,7 @@ class NSGA2BasedTournamentSelection(NSGA2basedTournamentSelectionBase, ParentSel
         return parent_individuals
 
 def test():
-    s = NSGA2BasedTournamentSelection(tournament_size=2)
+    s = NSGA2ParentSelection(tournament_size=2)
 
     individuals = [
         NSGA2Individual(encoding=[0], fitness_list=[

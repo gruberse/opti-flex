@@ -19,7 +19,7 @@ class NSGA2Individual(Individual):
         )
 
 
-class NSGA2:
+class NonDominatedSortingGeneticAlgorithmII:
 
     @staticmethod
     def crowding_distances_assignment(individuals: List[NSGA2Individual]) -> List[NSGA2Individual]:
@@ -100,7 +100,7 @@ class NSGA2:
                         q.rank = current_front_idx + 1
                         next_front.append(q)
 
-            current_front = NSGA2.crowding_distances_assignment(current_front)
+            current_front = NonDominatedSortingGeneticAlgorithmII.crowding_distances_assignment(current_front)
 
             yield current_front
 
@@ -153,7 +153,7 @@ def test():
     ]
 
     nsga2_individuals = []
-    generator_non_dominated_sorting = NSGA2.fast_non_dominated_sorting(individuals)
+    generator_non_dominated_sorting = NonDominatedSortingGeneticAlgorithmII.fast_non_dominated_sorting(individuals)
     while len(nsga2_individuals) < len(individuals):
         current_front = next(generator_non_dominated_sorting)
         nsga2_individuals.extend(current_front)
