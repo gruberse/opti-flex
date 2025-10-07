@@ -32,18 +32,19 @@ class InversionMutation(InversionMutationBase, Mutation):
         return mutated_offspring
 
 def test():
-    im = InversionMutation(mutation_probability=1.0)
+    m = InversionMutation(mutation_probability=1.0)
     encoding = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     idx_1 = 1
     idx_2 = 4
 
-    result = im._mutate(encoding, idx_1, idx_2)
-    assert result == [1, 5, 4, 3, 2, 6, 7, 8, 9]
+    assert m._mutate(encoding, idx_1, idx_2) == [1, 5, 4, 3, 2, 6, 7, 8, 9]
 
     offspring = [
         Individual(encoding=encoding),
     ]
 
-    result = im.mutate_offspring(offspring)
+    random.seed(1)
+
+    mutated_offspring = m.mutate_offspring(offspring)
     for i, child in enumerate(offspring):
-        assert result[i].encoding != child.encoding
+        assert mutated_offspring[i].encoding != child.encoding

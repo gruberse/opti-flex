@@ -34,19 +34,18 @@ class ScrambleMutation(ScrambleMutationBase, Mutation):
         return mutated_offspring
 
 def test():
-    sm = ScrambleMutation(mutation_probability=1.0)
+    m = ScrambleMutation(mutation_probability=1.0)
     encoding = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     idx_1 = 1
     idx_2 = 5
 
     random.seed(14)
-    result = sm._mutate(encoding, idx_1, idx_2)
-    assert result == [1, 3, 5, 4, 2, 6, 7, 8, 9]
+    assert m._mutate(encoding, idx_1, idx_2) == [1, 3, 5, 4, 2, 6, 7, 8, 9]
 
     offspring = [
         Individual(encoding=encoding),
     ]
 
-    result = sm.mutate_offspring(offspring)
+    mutated_offspring = m.mutate_offspring(offspring)
     for i, child in enumerate(offspring):
-        assert result[i].encoding != child.encoding
+        assert mutated_offspring[i].encoding != child.encoding

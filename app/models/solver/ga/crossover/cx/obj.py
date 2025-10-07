@@ -53,21 +53,18 @@ class CycleCrossover(CycleCrossoverBase, Crossover):
         return offspring
 
 def test():
-    cx = CycleCrossover(crossover_probability=1.0)
+    x = CycleCrossover(crossover_probability=1.0)
     parent_1_encoding = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     parent_2_encoding = [9, 3, 7, 8, 2, 6, 5, 1, 4]
 
-    result = cx._crossover(parent_1_encoding, parent_2_encoding)
-    assert result == [1, 3, 7, 4, 2, 6, 5, 8, 9]
-
-    result = cx._crossover(parent_2_encoding, parent_1_encoding)
-    assert result == [9, 2, 3, 8, 5, 6, 7, 1, 4]
+    assert x._crossover(parent_1_encoding, parent_2_encoding) == [1, 3, 7, 4, 2, 6, 5, 8, 9]
+    assert x._crossover(parent_2_encoding, parent_1_encoding) == [9, 2, 3, 8, 5, 6, 7, 1, 4]
 
     parents = [
         Individual(encoding=parent_1_encoding),
         Individual(encoding=parent_2_encoding),
     ]
 
-    result = cx.crossover_parents(parents)
+    offspring = x.crossover_parents(parents)
     for i, parent in enumerate(parents):
-        assert result[i].encoding != parent.encoding
+        assert offspring[i].encoding != parent.encoding

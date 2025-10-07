@@ -39,19 +39,20 @@ class ShiftMutation(ShiftMutationBase, Mutation):
 
 
 def test():
-    sm = ShiftMutation(mutation_probability=1.0)
+    m = ShiftMutation(mutation_probability=1.0)
     encoding = [3, 1, 4, 2, 5, 4, 6]
     idx_1 = 1
     idx_2 = 3
     insertion_idx = 3
 
-    result = sm._mutate(encoding, idx_1, idx_2, insertion_idx)
-    assert result == [3, 2, 5, 1, 4, 4, 6]
+    assert m._mutate(encoding, idx_1, idx_2, insertion_idx) == [3, 2, 5, 1, 4, 4, 6]
 
     offspring = [
         Individual(encoding=encoding),
     ]
 
-    result = sm.mutate_offspring(offspring)
+    random.seed(1)
+
+    mutated_offspring = m.mutate_offspring(offspring)
     for i, child in enumerate(offspring):
-        assert result[i].encoding != child.encoding
+        assert mutated_offspring[i].encoding != child.encoding

@@ -54,30 +54,31 @@ class UniformOrderBasedCrossover(UniformOrderBasedCrossoverBase, Crossover):
 
 
 def test():
-    uox = UniformOrderBasedCrossover(crossover_probability=1.0, keep_genes_probability=0.00001)
+    x = UniformOrderBasedCrossover(crossover_probability=1.0, keep_genes_probability=0.5)
     parent_1_encoding = [5, 7, 2, 4, 6, 3, 1]
     parent_2_encoding = [4, 2, 3, 1, 5, 7, 6]
     mask = np.array([True, False, True, True, False, False, True])
 
-    result = uox._crossover(
+    assert x._crossover(
         parent_1_encoding=parent_1_encoding,
         parent_2_encoding=parent_2_encoding,
         mask=mask
-    )
-    assert result == [5, 3, 2, 4, 7, 6, 1]
+    ) == [5, 3, 2, 4, 7, 6, 1]
 
-    result = uox._crossover(
+    assert x._crossover(
         parent_1_encoding=parent_2_encoding,
         parent_2_encoding=parent_1_encoding,
         mask=mask
-    )
-    assert result == [4, 5, 3, 1, 7, 2, 6]
+    ) == [4, 5, 3, 1, 7, 2, 6]
 
     parents = [
         Individual(encoding=parent_1_encoding),
         Individual(encoding=parent_2_encoding),
     ]
 
-    result = uox.crossover_parents(parents)
+    random.seed(3)
+    np.random.seed(3)
+
+    offspring = x.crossover_parents(parents)
     for i, parent in enumerate(parents):
-        assert result[i].encoding != parent.encoding
+        assert offspring[i].encoding != parent.encoding

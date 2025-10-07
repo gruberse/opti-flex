@@ -9,5 +9,4 @@ from app.models.solver.ga.fitness_evaluation.offspring.base import OffspringEval
 
 class OffspringEvaluation(OffspringEvaluationBase, FitnessEvaluation):
     def evaluate_individuals(self, problem: Problem, parents: List[Individual], offspring: List[Individual]) -> List[Individual]:
-        individuals = offspring
-        return problem.evaluate_individuals(individuals)
+        return problem.evaluate_individuals(offspring)

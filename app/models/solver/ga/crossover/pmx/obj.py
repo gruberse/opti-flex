@@ -56,21 +56,23 @@ class PartiallyMatchedCrossover(PartiallyMatchedCrossoverBase, Crossover):
 
 
 def test():
-    pmx = PartiallyMatchedCrossover(crossover_probability=1.0)
+    x = PartiallyMatchedCrossover(crossover_probability=1.0)
     parent_1_encoding = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     parent_2_encoding = [9, 3, 7, 8, 2, 6, 5, 1, 4]
     start_idx = 3
     end_idx = 7
 
-    result = pmx._crossover(parent_1_encoding, parent_2_encoding, start_idx, end_idx)
-    assert result == [9, 3, 2, 4, 5, 6, 7, 1, 8]
+    assert x._crossover(parent_1_encoding, parent_2_encoding, start_idx, end_idx) == [9, 3, 2, 4, 5, 6, 7, 1, 8]
 
     parents = [
         Individual(encoding=parent_1_encoding),
         Individual(encoding=parent_2_encoding),
     ]
 
-    result = pmx.crossover_parents(parents)
+    random.seed(1)
+    np.random.seed(1)
+
+    offspring = x.crossover_parents(parents)
     for i, parent in enumerate(parents):
-        assert result[i].encoding != parent.encoding
+        assert offspring[i].encoding != parent.encoding
 
