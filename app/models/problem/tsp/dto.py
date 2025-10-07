@@ -1,17 +1,17 @@
 from typing import List
 
-from app.models.objective.tsp.dto import TravelingSalesmanProblemObjectiveDTO
+from app.models.objective.tsp.dto import TravelingSalesmanObjectiveDTO
 from app.models.problem.dto import ProblemDTO
 from app.models.problem.tsp.base import TravelingSalesmanProblemBase
 from app.models.problem.tsp.tour.dto import TourDTO
 
 
 class TravelingSalesmanProblemInputDTO(TravelingSalesmanProblemBase, ProblemDTO):
-    objectives: List[TravelingSalesmanProblemObjectiveDTO]
+    objectives: List[TravelingSalesmanObjectiveDTO]
 
 
 class TravelingSalesmanProblemOutputDTO(TravelingSalesmanProblemBase, ProblemDTO):
-    objectives: List[TravelingSalesmanProblemObjectiveDTO]
+    objectives: List[TravelingSalesmanObjectiveDTO]
     result_tours: List[TourDTO] = []
 
 

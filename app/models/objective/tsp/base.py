@@ -3,5 +3,5 @@ from abc import ABC
 from pydantic import BaseModel
 
 
-class TravelingSalesmanProblemObjectiveBase(ABC, BaseModel):
+class TravelingSalesmanObjectiveBase(ABC, BaseModel):
     pass

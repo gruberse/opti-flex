@@ -5,7 +5,7 @@ from numpy.matrixlib.defmatrix import matrix
 
 from app.models.individual.obj import Individual
 from app.models.objective.obj import Objective
-from app.models.objective.tsp.obj import TravelingSalesmanProblemObjective
+from app.models.objective.tsp.obj import TravelingSalesmanObjective
 from app.models.population.obj import Population
 from app.models.problem.obj import Problem
 from app.models.problem.tsp.obj import TravelingSalesmanProblem
@@ -23,7 +23,7 @@ def test():
 
     problem = TravelingSalesmanProblem(
         objectives=[
-            TravelingSalesmanProblemObjective(objective_id="test", matrix=np.array([
+            TravelingSalesmanObjective(objective_id="test", matrix=np.array([
                 [0, 1, 2],
                 [3, 0, 4],
                 [5, 6, 0]

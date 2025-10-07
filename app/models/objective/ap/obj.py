@@ -5,11 +5,11 @@ import numpy as np
 import requests
 
 from app.models.fitness.obj import Fitness
-from .base import AssignmentProblemObjectiveBase
+from .base import AssignmentObjectiveBase
 from ..obj import Objective
 
 
-class AssignmentProblemObjective(AssignmentProblemObjectiveBase, Objective):
+class AssignmentObjective(AssignmentObjectiveBase, Objective):
     transposed: bool = False
     matrix: Any = None
 
@@ -49,3 +49,18 @@ class AssignmentProblemObjective(AssignmentProblemObjectiveBase, Objective):
 
             except ConnectionError as e:
                 raise RuntimeError(f'Encoder is not available and objective {self.objective_id} cannot be initialized')
+
+
+def test():
+    objective = AssignmentObjective(objective_id="test", matrix=np.array([
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9]
+    ]))
+
+    assert objective._get_fitness([0, 1, 2]).actual_fitness == 1 + 5 + 9
+    assert objective._get_fitness([0, 2, 1]).actual_fitness == 1 + 8 + 6
+    assert objective._get_fitness([1, 0, 2]).actual_fitness == 4 + 2 + 9
+    assert objective._get_fitness([1, 2, 0]).actual_fitness == 4 + 8 + 3
+    assert objective._get_fitness([2, 0, 1]).actual_fitness == 7 + 2 + 6
+    assert objective._get_fitness([2, 1, 0]).actual_fitness == 7 + 5 + 3

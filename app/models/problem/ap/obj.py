@@ -4,11 +4,11 @@ from .base import AssignmentProblemBase
 from .assignment.obj import Assignment
 from ..obj import Problem
 from ...individual.obj import Individual
-from ...objective.ap.obj import AssignmentProblemObjective
+from ...objective.ap.obj import AssignmentObjective
 
 
 class AssignmentProblem(AssignmentProblemBase, Problem):
-    objectives: List[AssignmentProblemObjective] = []
+    objectives: List[AssignmentObjective] = []
     result_assignments: List[Assignment] = []
 
     def __init__(self, /, **data):

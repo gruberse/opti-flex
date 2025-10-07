@@ -2,19 +2,19 @@ import numpy as np
 
 from app.models.base_mapper import BaseMapper
 from app.models.obfuscation.registry import ObfuscationMapperRegistry
-from app.models.objective.tsp.dto import TravelingSalesmanProblemObjectiveDTO
-from app.models.objective.tsp.obj import TravelingSalesmanProblemObjective
+from app.models.objective.tsp.dto import TravelingSalesmanObjectiveDTO
+from app.models.objective.tsp.obj import TravelingSalesmanObjective
 
 
-class TravelingSalesmanProblemObjectiveMapper(BaseMapper):
+class TravelingSalesmanObjectiveMapper(BaseMapper):
     @staticmethod
-    def to_dto(obj: TravelingSalesmanProblemObjective) -> TravelingSalesmanProblemObjectiveDTO:
+    def to_dto(obj: TravelingSalesmanObjective) -> TravelingSalesmanObjectiveDTO:
         obfuscation = None
         if obj.obfuscation:
             obfuscation = (ObfuscationMapperRegistry.get_mapper(obj.obfuscation.obfuscation_type)
                            .to_dto(obj=obj.obfuscation))
 
-        return TravelingSalesmanProblemObjectiveDTO(
+        return TravelingSalesmanObjectiveDTO(
             objective_id=obj.objective_id,
             distances=obj.matrix.tolist(),
             obfuscation=obfuscation,
@@ -23,13 +23,13 @@ class TravelingSalesmanProblemObjectiveMapper(BaseMapper):
         )
 
     @staticmethod
-    def from_dto(dto: TravelingSalesmanProblemObjectiveDTO) -> TravelingSalesmanProblemObjective:
+    def from_dto(dto: TravelingSalesmanObjectiveDTO) -> TravelingSalesmanObjective:
         obfuscation = None
         if dto.obfuscation:
             obfuscation = (ObfuscationMapperRegistry.get_mapper(dto.obfuscation.obfuscation_type)
                            .from_dto(dto=dto.obfuscation))
 
-        return TravelingSalesmanProblemObjective(
+        return TravelingSalesmanObjective(
             objective_id=dto.objective_id,
             matrix=np.array(dto.distances, dtype=np.int64),
             obfuscation=obfuscation,

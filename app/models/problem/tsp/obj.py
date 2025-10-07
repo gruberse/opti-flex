@@ -1,14 +1,14 @@
 from typing import List
 
 from app.models.individual.obj import Individual
-from app.models.objective.tsp.obj import TravelingSalesmanProblemObjective
+from app.models.objective.tsp.obj import TravelingSalesmanObjective
 from app.models.problem.obj import Problem
 from app.models.problem.tsp.base import TravelingSalesmanProblemBase
 from app.models.problem.tsp.tour.obj import Tour
 
 
 class TravelingSalesmanProblem(TravelingSalesmanProblemBase, Problem):
-    objectives: List[TravelingSalesmanProblemObjective]
+    objectives: List[TravelingSalesmanObjective]
     result_tours: List[Tour] = []
 
     def __init__(self, /, **data):
