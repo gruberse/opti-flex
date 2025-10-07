@@ -20419,7 +20419,7 @@
     "population_size": 100,
     "generations": 100,
     "parent_selection": {
-      "parent_selection_type": "nsga2_tournament",
+      "parent_selection_type": "tournament_nsga2",
       "tournament_size": 4
     },
     "crossover": {
@@ -20434,7 +20434,7 @@
         "fitness_evaluation_type": "offspring"
     },
     "survivor_selection": {
-        "survivor_selection_type": "nsga2_elitists"
+        "survivor_selection_type": "elitists_nsga2"
     }
   }
 }
