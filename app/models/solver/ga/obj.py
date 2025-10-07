@@ -45,7 +45,7 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
         candidates = self.fitness_evaluation.evaluate_individuals(problem, [], candidates)
 
         # survivor selection
-        survivors = self.survivor_selection.select_survivors(self.population_size, candidates)
+        survivors = self.survivor_selection.select_survivors(candidates, self.population_size)
 
         population.individuals = survivors
         population.end_time = datetime.now()
@@ -72,7 +72,7 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             evaluated_individuals = self.fitness_evaluation.evaluate_individuals(problem, populations[-1].individuals, offspring)
 
             # survivor selection
-            survivors = self.survivor_selection.select_survivors(self.population_size, evaluated_individuals)
+            survivors = self.survivor_selection.select_survivors(evaluated_individuals, self.population_size)
 
             population.individuals = survivors
             population.end_time = datetime.now()

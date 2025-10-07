@@ -17,7 +17,7 @@ from app.models.solver.ga.mutation.swap.dto import SwapMutationDTO
 from app.models.solver.ga.parent_selection.tournament_nsga2.dto import NSGA2BasedTournamentSelectionDTO
 from app.models.solver.ga.parent_selection.tournament.dto import TournamentSelectionDTO
 from app.models.solver.ga.survivor_selection.elitists.dto import ElitistsSelectionDTO
-from app.models.solver.ga.survivor_selection.nsga2_elitists.dto import NSGA2BasedElitistsSelectionDTO
+from app.models.solver.ga.survivor_selection.elitists_nsga2.dto import NSGA2BasedElitistsSelectionDTO
 
 
 class GeneticAlgorithmDTO(GeneticAlgorithmBase, SolverDTO):

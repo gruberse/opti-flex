@@ -1,13 +1,13 @@
 from app.models.base_mapper import BaseMapper
 
 from app.models.solver.ga.survivor_selection.elitists.mapper import ElitistsSelectionMapper
-from app.models.solver.ga.survivor_selection.nsga2_elitists.mapper import NSGA2basedElitistsSelectionMapper
+from app.models.solver.ga.survivor_selection.elitists_nsga2.mapper import NSGA2basedElitistsSelectionMapper
 
 
 class SurvivorSelectionMapperRegistry:
     _mapper_registry: dict[str, BaseMapper] = {
         "elitists": ElitistsSelectionMapper,
-        "nsga2_elitists": NSGA2basedElitistsSelectionMapper,
+        "elitists_nsga2": NSGA2basedElitistsSelectionMapper,
     }
 
 

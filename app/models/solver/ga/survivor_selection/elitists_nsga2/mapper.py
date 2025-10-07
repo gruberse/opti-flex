@@ -1,8 +1,8 @@
 from typing import Any
 
 from app.models.base_mapper import BaseMapper
-from app.models.solver.ga.survivor_selection.nsga2_elitists.dto import NSGA2BasedElitistsSelectionDTO
-from app.models.solver.ga.survivor_selection.nsga2_elitists.obj import NSGA2BasedElitistsSelection
+from app.models.solver.ga.survivor_selection.elitists_nsga2.dto import NSGA2BasedElitistsSelectionDTO
+from app.models.solver.ga.survivor_selection.elitists_nsga2.obj import NSGA2BasedElitistsSelection
 
 
 class NSGA2basedElitistsSelectionMapper(BaseMapper):

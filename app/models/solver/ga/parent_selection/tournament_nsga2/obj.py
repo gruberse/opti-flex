@@ -6,7 +6,7 @@ from app.models.individual.obj import Individual
 from app.models.solver.ga.custom.nsga2 import NSGA2
 from app.models.solver.ga.parent_selection.tournament_nsga2.base import NSGA2basedTournamentSelectionBase
 from app.models.solver.ga.parent_selection.obj import ParentSelection
-from app.models.solver.ga.survivor_selection.nsga2_elitists.obj import NSGA2Individual
+from app.models.solver.ga.survivor_selection.elitists_nsga2.obj import NSGA2Individual
 
 
 class NSGA2BasedTournamentSelection(NSGA2basedTournamentSelectionBase, ParentSelection):
