@@ -135,7 +135,7 @@ class Optimization(OptimizationBase):
 
         # take the latest processed population
         if self.statistics.populations:
-            for population in reversed(self.statistics.populations):
+            for population in reversed(list(self.statistics.populations)):
                 if population.non_dominated_individuals:
                     self.problem.update_result(population.non_dominated_individuals)
                     break
