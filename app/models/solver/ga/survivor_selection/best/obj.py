@@ -13,6 +13,9 @@ class BestIndividualsSelection(BestIndividualsSelectionBase, SurvivorSelection):
         if 1 < len(individuals[0].fitness_list):
             raise RuntimeError('best individuals selection can only be used for single-objective optimization')
 
+        if len(individuals) <= population_size:
+            return individuals
+
         individuals.sort(key=lambda individual: individual.fitness_list[0].get_estimated_or_actual_fitness(), reverse=True)
         return individuals[:population_size]
 

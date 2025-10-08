@@ -15,7 +15,7 @@ class GeneticAlgorithmMapper(BaseMapper):
         return GeneticAlgorithmDTO(
             generations=obj.generations,
             population_size=obj.population_size,
-            re_evaluate=obj.re_evaluate,
+            re_evaluate_parents=obj.re_evaluate_parents,
             parent_selection=ParentSelectionMapperRegistry.get_mapper(obj.parent_selection.parent_selection_type).to_dto(obj=obj.parent_selection),
             crossover=CrossoverMapperRegistry.get_mapper(obj.crossover.crossover_type).to_dto(obj=obj.crossover),
             mutation=MutationMapperRegistry.get_mapper(obj.mutation.mutation_type).to_dto(obj=obj.mutation),
@@ -28,7 +28,7 @@ class GeneticAlgorithmMapper(BaseMapper):
         return GeneticAlgorithm(
             generations=dto.generations,
             population_size=dto.population_size,
-            re_evaluate=dto.re_evaluate,
+            re_evaluate_parents=dto.re_evaluate_parents,
             parent_selection=ParentSelectionMapperRegistry.get_mapper(dto.parent_selection.parent_selection_type).from_dto(dto=dto.parent_selection),
             crossover=CrossoverMapperRegistry.get_mapper(dto.crossover.crossover_type).from_dto(dto=dto.crossover),
             mutation=MutationMapperRegistry.get_mapper(dto.mutation.mutation_type).from_dto(dto=dto.mutation),

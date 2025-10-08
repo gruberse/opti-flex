@@ -9,7 +9,7 @@ class GeneticAlgorithmBase(ABC, BaseModel):
     generations: int
     population_size: int
 
-    re_evaluate: Optional[Literal['parents', 'elitists']] = None
+    re_evaluate_parents: bool = False
 
     random_seed: Optional[int] = None
 

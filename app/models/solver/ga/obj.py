@@ -65,28 +65,13 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             # apply mutation
             offspring = self.mutation.mutate_offspring(offspring)
 
-            # calculate the fitness of individuals
-            # this mechanism allows to use elitism despite obfuscation
-            # the estimated fitness depends on the composition of the population
-            # re-evaluation of the parent population allows for a better comparison with the offspring
-
-            # default = generational replacement
-            evaluation_individuals = offspring
-
-            # plus selection
-            if self.re_evaluate == 'parents':
-                evaluation_individuals = evaluation_individuals + populations[-1].individuals
-            # elitist injection
-            elif self.re_evaluate == 'elitists':
-                # retrieve non dominated individuals (elitists) of the parent population
-                non_dominated_individuals = populations[-1].non_dominated_individuals if populations[
-                    -1].non_dominated_individuals else populations[-1].get_non_dominated_individuals()
-                # randomly replace offspring individuals with the elitists of the parent population
-                indices = sorted(random.sample(range(len(offspring) + 1), len(non_dominated_individuals)))
-                for i, idx in enumerate(indices):
-                    evaluation_individuals[idx] = non_dominated_individuals[i]
-
-            evaluated_individuals = problem.evaluate_individuals(evaluation_individuals)
+            # evaluate individuals
+            if self.re_evaluate_parents:
+                # include parent population (plus selection)
+                evaluated_individuals = problem.evaluate_individuals(populations[-1].individuals + offspring)
+            else:
+                # offspring only (generational replacement)
+                evaluated_individuals = problem.evaluate_individuals(offspring)
 
             # survivor selection
             survivors = self.survivor_selection.select_survivors(evaluated_individuals, self.population_size)
