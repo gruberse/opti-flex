@@ -2,11 +2,11 @@ from typing import List
 
 from app.models.fitness.obj import Fitness
 from app.models.individual.obj import Individual
-from app.models.solver.ga.survivor_selection.best.base import BestIndividualsSelectionBase
 from app.models.solver.ga.survivor_selection.obj import SurvivorSelection
+from app.models.solver.ga.survivor_selection.topk.base import TopKSelectionBase
 
 
-class BestIndividualsSelection(BestIndividualsSelectionBase, SurvivorSelection):
+class TopKSelection(TopKSelectionBase, SurvivorSelection):
 
     def select_survivors(self, individuals: List[Individual], population_size: int) -> List[Individual]:
 
@@ -21,7 +21,7 @@ class BestIndividualsSelection(BestIndividualsSelectionBase, SurvivorSelection):
 
 
 def test():
-    s = BestIndividualsSelection()
+    s = TopKSelection()
     population_size = 2
 
     individuals = [

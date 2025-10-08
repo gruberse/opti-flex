@@ -13,12 +13,12 @@ from app.models.solver.ga.mutation.shift.dto import ShiftMutationDTO
 from app.models.solver.ga.mutation.swap.dto import SwapMutationDTO
 from app.models.solver.ga.parent_selection.nsga2.dto import NSGA2ParentSelectionDTO
 from app.models.solver.ga.parent_selection.tournament.dto import TournamentSelectionDTO
-from app.models.solver.ga.survivor_selection.best.dto import BestIndividualsSelectionDTO
 from app.models.solver.ga.survivor_selection.nsga2.dto import NSGA2SurvivalSelectionDTO
+from app.models.solver.ga.survivor_selection.topk.dto import TopKSelectionDTO
 
 
 class GeneticAlgorithmDTO(GeneticAlgorithmBase, SolverDTO):
     parent_selection: Union[TournamentSelectionDTO, NSGA2ParentSelectionDTO]
     crossover: Union[OrderCrossoverDTO, PartiallyMatchedCrossoverDTO, UniformOrderBasedCrossoverDTO, CycleCrossoverDTO]
     mutation: Union[InversionMutationDTO, InsertMutationDTO, ScrambleMutationDTO, ShiftMutationDTO, SwapMutationDTO]
-    survivor_selection: Union[BestIndividualsSelectionDTO, NSGA2SurvivalSelectionDTO]
+    survivor_selection: Union[TopKSelectionDTO, NSGA2SurvivalSelectionDTO]
