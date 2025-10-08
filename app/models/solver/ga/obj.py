@@ -10,6 +10,7 @@ from app.models.population.obj import Population
 from app.models.problem.obj import Problem
 from app.models.solver.ga.base import GeneticAlgorithmBase
 from app.models.solver.ga.crossover.obj import Crossover
+from app.models.solver.ga.modification.obj import Modification
 from app.models.solver.ga.mutation.obj import Mutation
 from app.models.solver.ga.parent_selection.obj import ParentSelection
 from app.models.solver.ga.survivor_selection.obj import SurvivorSelection
@@ -20,6 +21,7 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
     parent_selection: ParentSelection
     crossover: Crossover
     mutation: Mutation
+    modification: Modification
     survivor_selection: SurvivorSelection
 
     def solve(self, problem: Problem, population_queue: multiprocessing.Queue, populations: List) -> None:
@@ -65,13 +67,11 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             # apply mutation
             offspring = self.mutation.mutate_offspring(offspring)
 
-            # evaluate individuals
-            if self.re_evaluate_parents:
-                # include parent population (plus selection)
-                evaluated_individuals = problem.evaluate_individuals(populations[-1].individuals + offspring)
-            else:
-                # offspring only (generational replacement)
-                evaluated_individuals = problem.evaluate_individuals(offspring)
+            # modify population
+            modified_population = self.modification.modify_population(populations[-1].individuals, offspring)
+
+            # evaluate fitness
+            evaluated_individuals = problem.evaluate_individuals(modified_population)
 
             # survivor selection
             survivors = self.survivor_selection.select_survivors(evaluated_individuals, self.population_size)

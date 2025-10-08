@@ -1,11 +1,11 @@
 from app.models.base_mapper import BaseMapper
 from app.models.solver.ga.survivor_selection.nsga2.mapper import NSGA2SurvivalSelectionMapper
-from app.models.solver.ga.survivor_selection.topk.mapper import TopKSelectionMapper
+from app.models.solver.ga.survivor_selection.topk.mapper import TopKSurvivalSelectionMapper
 
 
 class SurvivorSelectionMapperRegistry:
     _mapper_registry: dict[str, BaseMapper] = {
-        "topk": TopKSelectionMapper,
+        "topk": TopKSurvivalSelectionMapper,
         "nsga2": NSGA2SurvivalSelectionMapper,
     }
 

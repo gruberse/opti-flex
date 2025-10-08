@@ -20416,10 +20416,10 @@
   },
   "solver": {
     "solver_type": "ga",
-    "population_size": 100,
+    "population_size": 50,
     "generations": 100,
     "parent_selection": {
-      "parent_selection_type": "nsga2"
+      "parent_selection_type": "tournament_nsga2"
     },
     "crossover": {
       "crossover_type": "pmx",
@@ -20429,7 +20429,9 @@
       "mutation_type": "swap",
       "mutation_probability": 0.1
     },
-    "re_evaluate_parents": true,
+    "modification":{
+        "modification_type": "append_parents"
+    },
     "survivor_selection": {
         "survivor_selection_type": "nsga2"
     }

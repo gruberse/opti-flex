@@ -3,15 +3,15 @@ from typing import List
 from app.models.fitness.obj import Fitness
 from app.models.individual.obj import Individual
 from app.models.solver.ga.survivor_selection.obj import SurvivorSelection
-from app.models.solver.ga.survivor_selection.topk.base import TopKSelectionBase
+from app.models.solver.ga.survivor_selection.topk.base import TopKSurvivalSelectionBase
 
 
-class TopKSelection(TopKSelectionBase, SurvivorSelection):
+class TopKSurvivalSelection(TopKSurvivalSelectionBase, SurvivorSelection):
 
     def select_survivors(self, individuals: List[Individual], population_size: int) -> List[Individual]:
 
         if 1 < len(individuals[0].fitness_list):
-            raise RuntimeError('best individuals selection can only be used for single-objective optimization')
+            raise RuntimeError('top k selection can only be used for single-objective optimization')
 
         if len(individuals) <= population_size:
             return individuals
@@ -21,7 +21,7 @@ class TopKSelection(TopKSelectionBase, SurvivorSelection):
 
 
 def test():
-    s = TopKSelection()
+    s = TopKSurvivalSelection()
     population_size = 2
 
     individuals = [

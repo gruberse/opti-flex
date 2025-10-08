@@ -4,13 +4,14 @@ import numpy as np
 
 from app.models.fitness.obj import Fitness
 from app.models.individual.obj import Individual
-from app.models.solver.ga.custom.nsga2 import NSGA2Individual, NonDominatedSortingGeneticAlgorithmII
-from app.models.solver.ga.survivor_selection.nsga2.base import NSGA2SurvivalSelectionBase
+from app.models.solver.ga.survivor_selection.nsga2.base import NSGA2basedSurvivalSelectionBase
+from app.models.solver.ga.survivor_selection.nsga2.custom.individual import NSGA2Individual
+from app.models.solver.ga.survivor_selection.nsga2.custom.utils import fast_non_dominated_sorting
 
 from app.models.solver.ga.survivor_selection.obj import SurvivorSelection
 
 
-class NSGA2SurvivalSelection(NSGA2SurvivalSelectionBase, SurvivorSelection):
+class NSGA2BasedSurvivalSelection(NSGA2basedSurvivalSelectionBase, SurvivorSelection):
 
     def select_survivors(self, individuals: List[Individual], population_size: int) -> List[NSGA2Individual]:
 
@@ -19,7 +20,7 @@ class NSGA2SurvivalSelection(NSGA2SurvivalSelectionBase, SurvivorSelection):
 
         survivors: List[NSGA2Individual] = []
 
-        generator_non_dominated_sorting = NonDominatedSortingGeneticAlgorithmII.fast_non_dominated_sorting(individuals)
+        generator_non_dominated_sorting = fast_non_dominated_sorting(individuals)
 
         while len(survivors) < population_size:
             current_front = next(generator_non_dominated_sorting)
@@ -37,7 +38,7 @@ class NSGA2SurvivalSelection(NSGA2SurvivalSelectionBase, SurvivorSelection):
 
 
 def test():
-    s = NSGA2SurvivalSelection()
+    s = NSGA2BasedSurvivalSelection()
 
     individuals = [
         Individual(

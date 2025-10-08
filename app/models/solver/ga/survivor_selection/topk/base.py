@@ -4,5 +4,5 @@ from typing import Literal
 from pydantic import BaseModel
 
 
-class TopKSelectionBase(ABC, BaseModel):
+class TopKSurvivalSelectionBase(ABC, BaseModel):
     survivor_selection_type: Literal['topk'] = 'topk'

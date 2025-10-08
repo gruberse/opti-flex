@@ -46,11 +46,11 @@
   },
   "solver": {
     "solver_type": "ga",
-    "population_size": 20,
-    "generations": 5,
+    "population_size": 50,
+    "generations": 100,
     "parent_selection": {
       "parent_selection_type": "tournament",
-      "tournament_size": 2
+      "tournament_size": 4
     },
     "crossover": {
       "crossover_type": "pmx",
@@ -60,9 +60,11 @@
       "mutation_type": "swap",
       "mutation_probability": 0.1
     },
-    "re_evaluate_parents": true,
+    "modification":{
+        "modification_type": "inject_elitists"
+    },
     "survivor_selection": {
-        "survivor_selection_type": "best"
+        "survivor_selection_type": "topk"
     }
   }
 }

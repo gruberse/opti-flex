@@ -1,15 +1,15 @@
 from typing import Any
 
 from app.models.base_mapper import BaseMapper
-from app.models.solver.ga.survivor_selection.topk.dto import TopKSelectionDTO
-from app.models.solver.ga.survivor_selection.topk.obj import TopKSelection
+from app.models.solver.ga.survivor_selection.topk.dto import TopKSurvivalSelectionDTO
+from app.models.solver.ga.survivor_selection.topk.obj import TopKSurvivalSelection
 
 
-class TopKSelectionMapper(BaseMapper):
+class TopKSurvivalSelectionMapper(BaseMapper):
     @staticmethod
-    def to_dto(obj: TopKSelection) -> TopKSelectionDTO:
-        return TopKSelectionDTO()
+    def to_dto(obj: TopKSurvivalSelection) -> TopKSurvivalSelectionDTO:
+        return TopKSurvivalSelectionDTO()
 
     @staticmethod
-    def from_dto(dto: TopKSelectionDTO) -> TopKSelection:
-        return TopKSelection()
+    def from_dto(dto: TopKSurvivalSelectionDTO) -> TopKSurvivalSelection:
+        return TopKSurvivalSelection()
