@@ -60,11 +60,9 @@
       "mutation_type": "swap",
       "mutation_probability": 0.1
     },
-    "fitness_evaluation": {
-        "fitness_evaluation_type": "offspring"
-    },
+    "re_evaluate_parents": true,
     "survivor_selection": {
-        "survivor_selection_type": "elitists"
+        "survivor_selection_type": "best"
     }
   }
 }
