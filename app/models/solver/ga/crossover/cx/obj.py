@@ -33,10 +33,10 @@ class CycleCrossover(CycleCrossoverBase, Crossover):
 
         return child_encoding.tolist()
 
-    def crossover_parents(self, parents: List[Individual]) -> List[Individual]:
+    def crossover_parents(self, parents: List[Individual], population_size: int) -> List[Individual]:
         offspring = []
 
-        for i in range(0, len(parents), 2):
+        for i in range(0, population_size, 2):
             parent_1_encoding = parents[i].encoding
             parent_2_encoding = parents[i + 1].encoding
 
@@ -65,6 +65,6 @@ def test():
         Individual(encoding=parent_2_encoding),
     ]
 
-    offspring = x.crossover_parents(parents)
+    offspring = x.crossover_parents(parents, 2)
     for i, parent in enumerate(parents):
         assert offspring[i].encoding != parent.encoding

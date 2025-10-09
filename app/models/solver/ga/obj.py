@@ -62,7 +62,7 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             selected_parents = self.parent_selection.select_parents(survivors, self.population_size)
 
             # apply crossover
-            offspring = self.crossover.crossover_parents(selected_parents)
+            offspring = self.crossover.crossover_parents(selected_parents, self.population_size)
 
             # apply mutation
             offspring = self.mutation.mutate_offspring(offspring)

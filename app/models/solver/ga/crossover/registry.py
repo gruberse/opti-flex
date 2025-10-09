@@ -1,5 +1,6 @@
 from app.models.base_mapper import BaseMapper
 from app.models.solver.ga.crossover.cx.mapper import CycleCrossoverMapper
+from app.models.solver.ga.crossover.ex.mapper import EdgeCrossoverMapper
 from app.models.solver.ga.crossover.ox.mapper import OrderCrossoverMapper
 from app.models.solver.ga.crossover.pmx.mapper import PartiallyMatchedCrossoverMapper
 from app.models.solver.ga.crossover.uox.mapper import UniformOrderBasedCrossoverMapper
@@ -11,6 +12,7 @@ class CrossoverMapperRegistry:
         "ox": OrderCrossoverMapper,
         "pmx": PartiallyMatchedCrossoverMapper,
         "uox": UniformOrderBasedCrossoverMapper,
+        "ex": EdgeCrossoverMapper,
     }
 
 
