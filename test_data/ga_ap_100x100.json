@@ -20429,8 +20429,8 @@
       "mutation_type": "swap",
       "mutation_probability": 0.1
     },
-    "modification":{
-        "modification_type": "append_parents"
+    "evaluation_mode":{
+        "evaluation_mode_type": "plus"
     },
     "survivor_selection": {
         "survivor_selection_type": "nsga2"

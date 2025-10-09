@@ -50,7 +50,7 @@
     "generations": 100,
     "parent_selection": {
       "parent_selection_type": "tournament",
-      "tournament_size": 4
+      "tournament_size": 2
     },
     "crossover": {
       "crossover_type": "pmx",
@@ -60,8 +60,8 @@
       "mutation_type": "swap",
       "mutation_probability": 0.1
     },
-    "modification":{
-        "modification_type": "inject_elitists"
+    "evaluation_mode":{
+        "evaluation_mode_type": "comma"
     },
     "survivor_selection": {
         "survivor_selection_type": "topk"

@@ -6,9 +6,8 @@ from app.models.solver.ga.crossover.cx.dto import CycleCrossoverDTO
 from app.models.solver.ga.crossover.ox.dto import OrderCrossoverDTO
 from app.models.solver.ga.crossover.pmx.dto import PartiallyMatchedCrossoverDTO
 from app.models.solver.ga.crossover.uox.dto import UniformOrderBasedCrossoverDTO
-from app.models.solver.ga.modification.append_parents.dto import AppendParentsModificationDTO
-from app.models.solver.ga.modification.inject_elitists.dto import InjectElitistsModificationDTO
-from app.models.solver.ga.modification.none.dto import NoneModificationDTO
+from app.models.solver.ga.evaluation_mode.plus.dto import PlusModeDTO
+from app.models.solver.ga.evaluation_mode.comma.dto import CommaModeDTO
 from app.models.solver.ga.mutation.insert.dto import InsertMutationDTO
 from app.models.solver.ga.mutation.inversion.dto import InversionMutationDTO
 from app.models.solver.ga.mutation.scramble.dto import ScrambleMutationDTO
@@ -24,5 +23,5 @@ class GeneticAlgorithmDTO(GeneticAlgorithmBase, SolverDTO):
     parent_selection: Union[TournamentSelectionDTO, NSGA2BasedTournamentSelectionDTO]
     crossover: Union[OrderCrossoverDTO, PartiallyMatchedCrossoverDTO, UniformOrderBasedCrossoverDTO, CycleCrossoverDTO]
     mutation: Union[InversionMutationDTO, InsertMutationDTO, ScrambleMutationDTO, ShiftMutationDTO, SwapMutationDTO]
-    modification: Union[NoneModificationDTO, AppendParentsModificationDTO, InjectElitistsModificationDTO]
+    evaluation_mode: Union[CommaModeDTO, PlusModeDTO]
     survivor_selection: Union[TopKSurvivalSelectionDTO, NSGA2BasedSurvivalSelectionDTO]
