@@ -13,7 +13,7 @@ from app.models.solver.ga.survivor_selection.obj import SurvivorSelection
 
 class NSGA2BasedSurvivalSelection(NSGA2basedSurvivalSelectionBase, SurvivorSelection):
 
-    def select_survivors(self, individuals: List[Individual], population_size: int) -> List[NSGA2Individual]:
+    def select_individuals(self, individuals: List[Individual], population_size: int) -> List[NSGA2Individual]:
 
         if len(individuals[0].fitness_list) < 2:
             raise RuntimeError('nsga2 survival selection can only be used for multi-objective optimization')
@@ -71,7 +71,7 @@ def test():
         ),
     ]
 
-    survivors = s.select_survivors(individuals, 2)
+    survivors = s.select_individuals(individuals, 2)
 
     assert survivors[0].encoding == individuals[0].encoding
     assert survivors[1].encoding == individuals[3].encoding

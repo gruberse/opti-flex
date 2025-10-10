@@ -8,9 +8,9 @@ from app.models.solver.ga.parent_selection.tournament_nsga2.base import NSGA2bas
 from app.models.solver.ga.survivor_selection.nsga2.custom.individual import NSGA2Individual
 
 
-class NSGA2BasedTournamentSelection(NSGA2basedTournamentSelectionBase, ParentSelection):
+class NSGA2basedTournamentSelection(NSGA2basedTournamentSelectionBase, ParentSelection):
 
-    def select_parents(self, individuals: List[NSGA2Individual], n_parents: int) -> List[Individual]:
+    def select_individuals(self, individuals: List[NSGA2Individual], n_parents: int) -> List[Individual]:
 
         if len(individuals[0].fitness_list) < 2:
             raise RuntimeError('nsga2 based tournament selection can only be used for multi-objective optimization')
@@ -54,7 +54,7 @@ class NSGA2BasedTournamentSelection(NSGA2basedTournamentSelectionBase, ParentSel
         return parent_individuals
 
 def test():
-    s = NSGA2BasedTournamentSelection(tournament_size=2)
+    s = NSGA2basedTournamentSelection(tournament_size=2)
 
     individuals = [
         NSGA2Individual(encoding=[0], fitness_list=[
@@ -70,7 +70,7 @@ def test():
 
     random.seed(1)
 
-    parents = s.select_parents(individuals, 3)
+    parents = s.select_individuals(individuals, 3)
 
     assert parents[0] == individuals[4].to_individual()
     assert parents[1] == individuals[0].to_individual()

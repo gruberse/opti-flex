@@ -3,12 +3,12 @@ from typing import List
 from app.models.fitness.obj import Fitness
 from app.models.individual.obj import Individual
 from app.models.solver.ga.survivor_selection.obj import SurvivorSelection
-from app.models.solver.ga.survivor_selection.topk.base import TopKSurvivalSelectionBase
+from app.models.solver.ga.survivor_selection.truncation.base import TruncationSelectionBase
 
 
-class TopKSurvivalSelection(TopKSurvivalSelectionBase, SurvivorSelection):
+class TruncationSelection(TruncationSelectionBase, SurvivorSelection):
 
-    def select_survivors(self, individuals: List[Individual], population_size: int) -> List[Individual]:
+    def select_individuals(self, individuals: List[Individual], population_size: int) -> List[Individual]:
 
         if 1 < len(individuals[0].fitness_list):
             raise RuntimeError('top k selection can only be used for single-objective optimization')
@@ -21,7 +21,7 @@ class TopKSurvivalSelection(TopKSurvivalSelectionBase, SurvivorSelection):
 
 
 def test():
-    s = TopKSurvivalSelection()
+    s = TruncationSelection()
     population_size = 2
 
     individuals = [
@@ -31,7 +31,7 @@ def test():
         Individual(encoding=[3], fitness_list=[Fitness(objective_id='test', actual_fitness=100, estimated_fitness=60)]),
     ]
 
-    survivors = s.select_survivors(individuals, population_size)
+    survivors = s.select_individuals(individuals, population_size)
 
     assert survivors[0].encoding == [1]
     assert survivors[1].encoding == [2]

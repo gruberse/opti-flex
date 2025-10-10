@@ -6,10 +6,9 @@ from pydantic import BaseModel, model_validator
 class GeneticAlgorithmBase(ABC, BaseModel):
     solver_type: Literal["ga"] = "ga"
 
-    generations: int
+    n_generations: int
     population_size: int
-    parents: int
-    elitists: int
+    n_parents: int
 
     random_seed: Optional[int] = None
 

@@ -9,7 +9,7 @@ from app.models.solver.ga.parent_selection.tournament.base import TournamentSele
 
 class TournamentSelection(TournamentSelectionBase, ParentSelection):
 
-    def select_parents(self, individuals: List[Individual], n_parents: int) -> List[Individual]:
+    def select_individuals(self, individuals: List[Individual], n_parents: int) -> List[Individual]:
 
         if 1 < len(individuals[0].fitness_list):
             raise RuntimeError('tournament selection can only be used for single-objective optimization')
@@ -56,7 +56,7 @@ def test():
 
     random.seed(1)
 
-    parents = s.select_parents(individuals, 2)
+    parents = s.select_individuals(individuals, 2)
 
     assert parents[0] == individuals[1]
     assert parents[1] == individuals[0]

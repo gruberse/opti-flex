@@ -1,18 +1,20 @@
 from typing import List
 
 from app.models.individual.obj import Individual
-from app.models.solver.ga.evaluation_mode.obj import EvaluationMode
-from app.models.solver.ga.evaluation_mode.plus.base import PlusModeBase
+
+from app.models.solver.ga.re_evaluation.dto import ReEvaluationDTO
+from app.models.solver.ga.re_evaluation.obj import ReEvaluation
+from app.models.solver.ga.re_evaluation.population.base import PopulationReEvaluationBase
 
 
-class PlusMode(PlusModeBase, EvaluationMode):
+class PopulationReEvaluation(PopulationReEvaluationBase, ReEvaluation):
 
     def select_individuals(self, parents: List[Individual], offspring: List[Individual]) -> List[Individual]:
         return parents + offspring
 
 
 def test():
-    m = PlusMode()
+    m = PopulationReEvaluation()
 
     parents = [Individual(encoding=[0])]
     offspring = [Individual(encoding=[1])]

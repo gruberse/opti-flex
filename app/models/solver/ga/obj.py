@@ -10,9 +10,9 @@ from app.models.population.obj import Population
 from app.models.problem.obj import Problem
 from app.models.solver.ga.base import GeneticAlgorithmBase
 from app.models.solver.ga.crossover.obj import Crossover
-from app.models.solver.ga.evaluation_mode.obj import EvaluationMode
 from app.models.solver.ga.mutation.obj import Mutation
 from app.models.solver.ga.parent_selection.obj import ParentSelection
+from app.models.solver.ga.re_evaluation.obj import ReEvaluation
 from app.models.solver.ga.survivor_selection.obj import SurvivorSelection
 from app.models.solver.obj import Solver
 
@@ -21,7 +21,7 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
     parent_selection: ParentSelection
     crossover: Crossover
     mutation: Mutation
-    evaluation_mode: EvaluationMode
+    re_evaluation: ReEvaluation
     survivor_selection: SurvivorSelection
 
     def solve(self, problem: Problem, population_queue: multiprocessing.Queue, populations: List) -> None:
@@ -44,9 +44,8 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
         # calculate the fitness of the initial population
         candidates = problem.evaluate_individuals(candidates)
 
-        # survivor selection
-        #   for e.g. nsga2 tournament selection, individuals must be of type nsga2individual
-        survivors = self.survivor_selection.select_survivors(candidates, self.population_size)
+        # environmental selection
+        survivors = self.environmental_selection.select_individuals(candidates, self.population_size)
 
         population.individuals = survivors
         population.end_time = datetime.now()
@@ -55,12 +54,12 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
         population_queue.put(population.population_id)
 
         # main loop
-        for population_id in range(1, self.generations + 1):
+        for population_id in range(1, self.n_generations + 1):
             # initialize the next generation
             population = Population(population_id=population_id, start_time=datetime.now())
 
             # select the parents
-            selected_parents = self.parent_selection.select_parents(survivors, self.parents)
+            selected_parents = self.parent_selection.select_individuals(survivors, self.n_parents)
 
             # apply crossover
             offspring = self.crossover.crossover_parents(selected_parents, (self.population_size - self.elitists))
@@ -69,7 +68,7 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             offspring = self.mutation.mutate_offspring(offspring)
 
             # get elitists
-            elitist_individuals = self.survivor_selection.select_survivors(populations[-1].individuals, self.elitists)
+            elitist_individuals = self.environmental_selection.select_individuals(populations[-1].individuals, self.elitists)
             offspring = offspring + elitist_individuals
 
             # select individuals based on evaluation mode
@@ -79,7 +78,7 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             evaluated_individuals = problem.evaluate_individuals(evaluation_individuals)
 
             # survivor selection
-            survivors = self.survivor_selection.select_survivors(evaluated_individuals, self.population_size)
+            survivors = self.environmental_selection.select_individuals(evaluated_individuals, self.population_size)
 
             population.individuals = survivors
             population.end_time = datetime.now()
