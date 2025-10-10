@@ -21,6 +21,7 @@ class EdgeRecombinationCrossover(EdgeRecombinationCrossoverBase, Crossover):
         #   the first set collects neighbor edges
         #   the second set collects common neighbor edges
         edge_table = {element: (set(), set()) for element in parent_1_encoding}
+
         for encoding in [parent_1_encoding, parent_2_encoding]:
 
             for i in range(n_genes):
@@ -77,10 +78,10 @@ class EdgeRecombinationCrossover(EdgeRecombinationCrossoverBase, Crossover):
 
         return child_encoding
 
-    def crossover_parents(self, parents: List[Individual], population_size: int) -> List[Individual]:
+    def crossover_parents(self, parents: List[Individual], n_offspring: int) -> List[Individual]:
         offspring = []
 
-        for _ in range(population_size):
+        for _ in range(n_offspring):
             parent_1_idx, parent_2_idx = sorted(random.sample(range(len(parents)), 2))
             parent_1_encoding = parents[parent_1_idx].encoding
             parent_2_encoding = parents[parent_2_idx].encoding
@@ -95,17 +96,28 @@ class EdgeRecombinationCrossover(EdgeRecombinationCrossoverBase, Crossover):
 
 def test():
     x = EdgeRecombinationCrossover(crossover_probability=1.0)
+    parent_1_encoding = [6, 3, 1, 5, 2, 7, 4]
+    parent_2_encoding = [3, 7, 2, 5, 6, 1, 4]
 
     random.seed(57)
 
-    assert x._crossover(
-        [6, 3, 1, 5, 2, 7, 4],
-        [3, 7, 2, 5, 6, 1, 4]
-    ) == [6, 5, 2, 7, 4, 3, 1]
+    assert x._crossover(parent_1_encoding, parent_2_encoding) == [6, 5, 2, 7, 4, 3, 1]
 
     random.seed(86)
 
-    assert x._crossover(
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [9, 3, 7, 8, 2, 6, 5, 1, 4]
-    ) == [1, 5, 6, 2, 8, 7, 3, 9, 4]
+    parent_1_encoding = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    parent_2_encoding = [9, 3, 7, 8, 2, 6, 5, 1, 4]
+
+    assert x._crossover(parent_1_encoding, parent_2_encoding) == [1, 5, 6, 2, 8, 7, 3, 9, 4]
+
+    parents = [
+        Individual(encoding=parent_1_encoding),
+        Individual(encoding=parent_2_encoding),
+    ]
+
+    offspring = x.crossover_parents(parents, 2)
+
+    assert len(offspring) == 2
+
+    for i, parent in enumerate(parents):
+        assert offspring[i].encoding != parent.encoding

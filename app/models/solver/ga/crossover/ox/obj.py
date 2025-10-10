@@ -16,7 +16,7 @@ class OrderCrossover(OrderCrossoverBase, Crossover):
         size = len(parent_1_encoding)
         child_encoding = np.full(size, np.nan)
 
-        # copy the subsequence from pa,rent one
+        # copy the subsequence from parent one
         child_encoding[start_idx:end_idx] = parent_1_encoding[start_idx:end_idx]
 
         # get remaining genes in the order starting at the end_idx
@@ -33,10 +33,10 @@ class OrderCrossover(OrderCrossoverBase, Crossover):
 
         return child_encoding.tolist()
 
-    def crossover_parents(self, parents: List[Individual], population_size: int) -> List[Individual]:
+    def crossover_parents(self, parents: List[Individual], n_offspring: int) -> List[Individual]:
         offspring = []
 
-        for _ in range(population_size // 2):
+        for _ in range(n_offspring // 2):
             parent_1_idx, parent_2_idx = random.sample(range(len(parents)), 2)
             parent_1_encoding = parents[parent_1_idx].encoding
             parent_2_encoding = parents[parent_2_idx].encoding
@@ -51,6 +51,7 @@ class OrderCrossover(OrderCrossoverBase, Crossover):
                 offspring.append(Individual(encoding=parent_2_encoding))
 
         return offspring
+
 
 def test():
     x = OrderCrossover(crossover_probability=1.0)
@@ -67,9 +68,11 @@ def test():
     ]
 
     random.seed(1)
-    np.random.seed(1)
 
     offspring = x.crossover_parents(parents, 2)
+
+    assert len(offspring) == 2
+
     for i, parent in enumerate(parents):
         assert offspring[i].encoding != parent.encoding
 

@@ -31,12 +31,10 @@ class UniformOrderBasedCrossover(UniformOrderBasedCrossoverBase, Crossover):
 
         return child_encoding.tolist()
 
-    def crossover_parents(self, parents: List[Individual], population_size) -> List[Individual]:
+    def crossover_parents(self, parents: List[Individual], n_offspring) -> List[Individual]:
         offspring = []
 
-        offspring = []
-
-        for _ in range(population_size // 2):
+        for _ in range(n_offspring // 2):
             parent_1_idx, parent_2_idx = random.sample(range(len(parents)), 2)
             parent_1_encoding = parents[parent_1_idx].encoding
             parent_2_encoding = parents[parent_2_idx].encoding
@@ -84,5 +82,8 @@ def test():
     np.random.seed(3)
 
     offspring = x.crossover_parents(parents, 2)
+
+    assert len(offspring) == 2
+
     for i, parent in enumerate(parents):
         assert offspring[i].encoding != parent.encoding

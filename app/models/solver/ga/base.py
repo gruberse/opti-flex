@@ -15,6 +15,6 @@ class GeneticAlgorithmBase(ABC, BaseModel):
     @model_validator(mode='after')
     def validate_setup(self):
         if self.population_size % 2 != 0:
-            raise ValueError('Population size must be an even number')
+            raise ValueError('population size must be an even number')
 
         return self

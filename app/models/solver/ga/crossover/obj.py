@@ -6,6 +6,7 @@ from app.models.solver.ga.crossover.base import CrossoverBase
 
 
 class Crossover(CrossoverBase):
+
     @abstractmethod
-    def crossover_parents(self, parents: List[Individual], population_size: int) -> List[Individual]:
+    def crossover_parents(self, parents: List[Individual], n_offspring: int) -> List[Individual]:
         pass

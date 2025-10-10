@@ -46,5 +46,8 @@ def test():
     random.seed(1)
 
     mutated_offspring = m.mutate_offspring(offspring)
+
+    assert len(mutated_offspring) == 1
+
     for i, child in enumerate(offspring):
         assert mutated_offspring[i].encoding != child.encoding

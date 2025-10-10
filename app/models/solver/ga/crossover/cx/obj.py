@@ -10,6 +10,7 @@ from app.models.solver.ga.crossover.obj import Crossover
 
 # based on "Introduction to Evolutionary Computation" by Eiben and Smith (2015)
 class CycleCrossover(CycleCrossoverBase, Crossover):
+
     def _crossover(self, parent_1_encoding: List[int], parent_2_encoding: List[int]) -> List[int]:
 
         child_encoding = np.full(len(parent_1_encoding), np.nan)
@@ -28,15 +29,15 @@ class CycleCrossover(CycleCrossoverBase, Crossover):
                 if not np.isnan(child_encoding[i]):
                     break
 
-            # reverse order of parent solutions for the next cycle
+            # reverse the order of parent individuals for the next cycle
             p1, p2 = p2, p1
 
         return child_encoding.tolist()
 
-    def crossover_parents(self, parents: List[Individual], population_size: int) -> List[Individual]:
+    def crossover_parents(self, parents: List[Individual], n_offspring: int) -> List[Individual]:
         offspring = []
 
-        for _ in range(population_size // 2):
+        for _ in range(n_offspring // 2):
             parent_1_idx, parent_2_idx = random.sample(range(len(parents)), 2)
             parent_1_encoding = parents[parent_1_idx].encoding
             parent_2_encoding = parents[parent_2_idx].encoding
@@ -49,6 +50,7 @@ class CycleCrossover(CycleCrossoverBase, Crossover):
                 offspring.append(Individual(encoding=parent_2_encoding))
 
         return offspring
+
 
 def test():
     x = CycleCrossover(crossover_probability=1.0)
@@ -64,5 +66,8 @@ def test():
     ]
 
     offspring = x.crossover_parents(parents, 2)
+
+    assert len(offspring) == 2
+
     for i, parent in enumerate(parents):
         assert offspring[i].encoding != parent.encoding
