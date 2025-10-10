@@ -47,6 +47,7 @@ class EdgeRecombinationCrossover(EdgeRecombinationCrossoverBase, Crossover):
 
             # select the next element
             neighbor_list = edge_table[current_element]
+            del edge_table[current_element]
 
             # option 3: select a random gene value
             if len(neighbor_list[0]) == 0 and len(neighbor_list[1]) == 0:
@@ -71,10 +72,8 @@ class EdgeRecombinationCrossover(EdgeRecombinationCrossoverBase, Crossover):
 
                 next_element = random.choice(shortest_list_edges)
 
-            child_encoding.append(next_element)
-            del edge_table[current_element]
-
             current_element = next_element
+            child_encoding.append(current_element)
 
         return child_encoding
 

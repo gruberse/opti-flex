@@ -137,7 +137,8 @@
   "solver": {
     "solver_type": "ga",
     "population_size": 50,
-    "generations": 100,
+    "n_generations": 100,
+    "n_parents": 50,
     "parent_selection": {
       "parent_selection_type": "tournament_nsga2"
     },
@@ -149,8 +150,8 @@
       "mutation_type": "swap",
       "mutation_probability": 0.1
     },
-    "evaluation_mode":{
-        "evaluation_mode_type": "plus"
+    "re_evaluation": {
+        "re_evaluation_type": "population"
     },
     "survivor_selection": {
         "survivor_selection_type": "nsga2"
