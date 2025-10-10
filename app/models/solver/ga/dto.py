@@ -3,7 +3,7 @@ from typing import Union
 from app.models.solver.dto import SolverDTO
 from app.models.solver.ga.base import GeneticAlgorithmBase
 from app.models.solver.ga.crossover.cx.dto import CycleCrossoverDTO
-from app.models.solver.ga.crossover.ex.dto import EdgeCrossoverDTO
+from app.models.solver.ga.crossover.erx.dto import EdgeRecombinationCrossoverDTO
 from app.models.solver.ga.crossover.ox.dto import OrderCrossoverDTO
 from app.models.solver.ga.crossover.pmx.dto import PartiallyMatchedCrossoverDTO
 from app.models.solver.ga.crossover.uox.dto import UniformOrderBasedCrossoverDTO
@@ -22,7 +22,7 @@ from app.models.solver.ga.survivor_selection.topk.dto import TopKSurvivalSelecti
 
 class GeneticAlgorithmDTO(GeneticAlgorithmBase, SolverDTO):
     parent_selection: Union[TournamentSelectionDTO, NSGA2BasedTournamentSelectionDTO]
-    crossover: Union[OrderCrossoverDTO, PartiallyMatchedCrossoverDTO, UniformOrderBasedCrossoverDTO, CycleCrossoverDTO, EdgeCrossoverDTO]
+    crossover: Union[OrderCrossoverDTO, PartiallyMatchedCrossoverDTO, UniformOrderBasedCrossoverDTO, CycleCrossoverDTO, EdgeRecombinationCrossoverDTO]
     mutation: Union[InversionMutationDTO, InsertMutationDTO, ScrambleMutationDTO, ShiftMutationDTO, SwapMutationDTO]
     evaluation_mode: Union[CommaModeDTO, PlusModeDTO]
     survivor_selection: Union[TopKSurvivalSelectionDTO, NSGA2BasedSurvivalSelectionDTO]

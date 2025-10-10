@@ -36,16 +36,14 @@ class CycleCrossover(CycleCrossoverBase, Crossover):
     def crossover_parents(self, parents: List[Individual], population_size: int) -> List[Individual]:
         offspring = []
 
-        for i in range(0, population_size, 2):
-            parent_1_encoding = parents[i].encoding
-            parent_2_encoding = parents[i + 1].encoding
+        for _ in range(population_size // 2):
+            parent_1_idx, parent_2_idx = random.sample(range(len(parents)), 2)
+            parent_1_encoding = parents[parent_1_idx].encoding
+            parent_2_encoding = parents[parent_2_idx].encoding
 
             if random.random() < self.crossover_probability:
-                offspring.append(
-                    Individual(encoding=self._crossover(parent_1_encoding, parent_2_encoding)))
-                offspring.append(
-                    Individual(encoding=self._crossover(parent_2_encoding, parent_1_encoding)))
-
+                offspring.append(Individual(encoding=self._crossover(parent_1_encoding, parent_2_encoding)))
+                offspring.append(Individual(encoding=self._crossover(parent_2_encoding, parent_1_encoding)))
             else:
                 offspring.append(Individual(encoding=parent_1_encoding))
                 offspring.append(Individual(encoding=parent_2_encoding))
