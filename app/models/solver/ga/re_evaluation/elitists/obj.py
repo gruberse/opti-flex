@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Any
 
 from app.models.individual.obj import Individual
 
@@ -8,8 +8,12 @@ from app.models.solver.ga.re_evaluation.obj import ReEvaluation
 
 class ElitistsReEvaluation(ElitistsReEvaluationBase, ReEvaluation):
 
-    def select_individuals(self, parents: List[Individual], offspring: List[Individual]) -> List[Individual]:
-        return offspring
+    def get_remaining_population_size(self, population_size: int) -> int:
+        return population_size - self.n_elitists
+
+    def select_individuals(self, parents: List[Individual], offspring: List[Individual], survival_selection: Any) -> List[Individual]:
+        elitists = survival_selection.select_individuals(parents, self.n_elitists)
+        return elitists + offspring
 
 
 def test():

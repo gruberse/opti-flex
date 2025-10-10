@@ -35,7 +35,7 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             np.random.seed(self.random_seed)
 
         # create the initial population
-        population = Population(population_id=0, start_time=datetime.now())
+        initial_population = Population(population_id=0, start_time=datetime.now())
 
         candidates = []
         for _ in range(self.population_size):
@@ -44,47 +44,50 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
         # calculate the fitness of the initial population
         candidates = problem.evaluate_individuals(candidates)
 
-        # environmental selection
-        survivors = self.environmental_selection.select_individuals(candidates, self.population_size)
+        # survivor selection
+        survivors = self.survivor_selection.select_individuals(candidates, self.population_size)
 
-        population.individuals = survivors
-        population.end_time = datetime.now()
-        populations.append(population)
+        initial_population.individuals = survivors
+        initial_population.end_time = datetime.now()
+        populations.append(initial_population)
 
-        population_queue.put(population.population_id)
+        population_queue.put(initial_population.population_id)
 
         # main loop
         for population_id in range(1, self.n_generations + 1):
             # initialize the next generation
-            population = Population(population_id=population_id, start_time=datetime.now())
+            current_population = Population(population_id=population_id, start_time=datetime.now())
 
             # select the parents
             selected_parents = self.parent_selection.select_individuals(survivors, self.n_parents)
 
             # apply crossover
-            offspring = self.crossover.crossover_parents(selected_parents, (self.population_size - self.elitists))
+            offspring = self.crossover.crossover_parents(
+                selected_parents,
+                self.re_evaluation.get_remaining_population_size(self.population_size)
+            )
 
             # apply mutation
-            offspring = self.mutation.mutate_offspring(offspring)
+            mutated_offspring = self.mutation.mutate_offspring(offspring)
 
-            # get elitists
-            elitist_individuals = self.environmental_selection.select_individuals(populations[-1].individuals, self.elitists)
-            offspring = offspring + elitist_individuals
-
-            # select individuals based on evaluation mode
-            evaluation_individuals = self.evaluation_mode.select_individuals(populations[-1].individuals, offspring)
+            # select individuals for evaluation
+            evaluation_individuals = self.re_evaluation.select_individuals(
+                populations[-1].individuals,
+                mutated_offspring,
+                self.survivor_selection
+            )
 
             # evaluate fitness
             evaluated_individuals = problem.evaluate_individuals(evaluation_individuals)
 
             # survivor selection
-            survivors = self.environmental_selection.select_individuals(evaluated_individuals, self.population_size)
+            survivors = self.survivor_selection.select_individuals(evaluated_individuals, self.population_size)
 
-            population.individuals = survivors
-            population.end_time = datetime.now()
+            current_population.individuals = survivors
+            current_population.end_time = datetime.now()
 
-            populations.append(population)
-            population_queue.put(population.population_id)
+            populations.append(current_population)
+            population_queue.put(current_population.population_id)
 
         # stop the population process
         population_queue.put(None)
