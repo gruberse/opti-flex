@@ -11,7 +11,7 @@ from app.models.solver.ga.survivor_selection.nsga2.custom.utils import fast_non_
 from app.models.solver.ga.survivor_selection.obj import SurvivorSelection
 
 
-class NSGA2BasedSurvivalSelection(NSGA2basedSurvivalSelectionBase, SurvivorSelection):
+class NSGA2basedSurvivalSelection(NSGA2basedSurvivalSelectionBase, SurvivorSelection):
 
     def select_individuals(self, individuals: List[Individual], population_size: int) -> List[NSGA2Individual]:
 
@@ -38,7 +38,7 @@ class NSGA2BasedSurvivalSelection(NSGA2basedSurvivalSelectionBase, SurvivorSelec
 
 
 def test():
-    s = NSGA2BasedSurvivalSelection()
+    s = NSGA2basedSurvivalSelection()
 
     individuals = [
         Individual(

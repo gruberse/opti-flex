@@ -22,7 +22,7 @@ def test():
     parents = [Individual(encoding=[0])]
     offspring = [Individual(encoding=[1])]
 
-    individuals = m.select_individuals(parents, offspring)
+    individuals = m.select_individuals(parents, offspring, None)
 
     assert len(individuals) == 2
 

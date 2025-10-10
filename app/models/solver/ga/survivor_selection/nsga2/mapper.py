@@ -1,16 +1,16 @@
 from typing import Any
 
 from app.models.base_mapper import BaseMapper
-from app.models.solver.ga.survivor_selection.nsga2.dto import NSGA2BasedSurvivalSelectionDTO
-from app.models.solver.ga.survivor_selection.nsga2.obj import NSGA2BasedSurvivalSelection
+from app.models.solver.ga.survivor_selection.nsga2.dto import NSGA2basedSurvivalSelectionDTO
+from app.models.solver.ga.survivor_selection.nsga2.obj import NSGA2basedSurvivalSelection
 
 
-class NSGA2SurvivalSelectionMapper(BaseMapper):
+class NSGA2basedSurvivalSelectionMapper(BaseMapper):
     @staticmethod
-    def to_dto(obj: NSGA2BasedSurvivalSelection) -> NSGA2BasedSurvivalSelectionDTO:
-        return NSGA2BasedSurvivalSelectionDTO()
+    def to_dto(obj: NSGA2basedSurvivalSelection) -> NSGA2basedSurvivalSelectionDTO:
+        return NSGA2basedSurvivalSelectionDTO()
 
 
     @staticmethod
-    def from_dto(dto: NSGA2BasedSurvivalSelectionDTO) -> NSGA2BasedSurvivalSelection:
-        return NSGA2BasedSurvivalSelection()
+    def from_dto(dto: NSGA2basedSurvivalSelectionDTO) -> NSGA2basedSurvivalSelection:
+        return NSGA2basedSurvivalSelection()
