@@ -8,6 +8,8 @@ class GeneticAlgorithmBase(ABC, BaseModel):
 
     generations: int
     population_size: int
+    parents: int
+    elitists: int
 
     random_seed: Optional[int] = None
 

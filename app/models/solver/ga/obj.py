@@ -45,6 +45,7 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
         candidates = problem.evaluate_individuals(candidates)
 
         # survivor selection
+        #   for e.g. nsga2 tournament selection, individuals must be of type nsga2individual
         survivors = self.survivor_selection.select_survivors(candidates, self.population_size)
 
         population.individuals = survivors
@@ -59,13 +60,17 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             population = Population(population_id=population_id, start_time=datetime.now())
 
             # select the parents
-            selected_parents = self.parent_selection.select_parents(survivors, self.population_size)
+            selected_parents = self.parent_selection.select_parents(survivors, self.parents)
 
             # apply crossover
-            offspring = self.crossover.crossover_parents(selected_parents, self.population_size)
+            offspring = self.crossover.crossover_parents(selected_parents, (self.population_size - self.elitists))
 
             # apply mutation
             offspring = self.mutation.mutate_offspring(offspring)
+
+            # get elitists
+            elitist_individuals = self.survivor_selection.select_survivors(populations[-1].individuals, self.elitists)
+            offspring = offspring + elitist_individuals
 
             # select individuals based on evaluation mode
             evaluation_individuals = self.evaluation_mode.select_individuals(populations[-1].individuals, offspring)
