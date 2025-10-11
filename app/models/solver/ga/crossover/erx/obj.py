@@ -12,7 +12,8 @@ from app.models.solver.ga.crossover.obj import Crossover
 # based on "Computational Intelligence" by Kruse et al. (2022)
 class EdgeRecombinationCrossover(EdgeRecombinationCrossoverBase, Crossover):
 
-    def _crossover(self, parent_1_encoding: List[int], parent_2_encoding: List[int]) -> List[int]:
+    @staticmethod
+    def _crossover(parent_1_encoding: List[int], parent_2_encoding: List[int]) -> List[int]:
         n_genes = len(parent_1_encoding)
 
         child_encoding = []

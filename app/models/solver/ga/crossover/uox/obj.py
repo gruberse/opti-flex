@@ -12,7 +12,8 @@ from app.models.solver.ga.crossover.uox.base import UniformOrderBasedCrossoverBa
 # based on "Computational Intelligence" by Kruse et al. (2022)
 class UniformOrderBasedCrossover(UniformOrderBasedCrossoverBase, Crossover):
 
-    def _crossover(self, parent_1_encoding: List[int], parent_2_encoding: List[int], mask: np.ndarray) -> List[int]:
+    @staticmethod
+    def _crossover(parent_1_encoding: List[int], parent_2_encoding: List[int], mask: np.ndarray) -> List[int]:
         # initialize the encoding of the child with NaN
         child_encoding = np.full(len(parent_1_encoding), np.nan)
         used_gene_values = set()

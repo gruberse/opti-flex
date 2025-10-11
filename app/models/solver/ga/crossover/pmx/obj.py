@@ -11,20 +11,21 @@ from app.models.solver.ga.crossover.pmx.base import PartiallyMatchedCrossoverBas
 # based on "Introduction to Evolutionary Computation" by Eiben and Smith (2015)
 class PartiallyMatchedCrossover(PartiallyMatchedCrossoverBase, Crossover):
 
-    def _crossover(self, parent_1_encoding: List[int], parent_2_encoding: List[int], start_idx: int, end_idx: int) -> \
+    @staticmethod
+    def _crossover(parent_1_encoding: List[int], parent_2_encoding: List[int], start_idx: int, end_idx: int) -> \
             List[int]:
         size = len(parent_1_encoding)
         child_encoding = np.full(size, np.nan)
 
         # copy the subsequence from parent one
-        child_encoding[start_idx:end_idx] = parent_1_encoding[start_idx:end_idx]
+        child_encoding[start_idx:end_idx + 1] = parent_1_encoding[start_idx:end_idx + 1]
 
         # build the mapping
-        mapping = {parent_1_encoding[i]: parent_2_encoding[i] for i in range(start_idx, end_idx)}
+        mapping = {parent_1_encoding[i]: parent_2_encoding[i] for i in range(start_idx, end_idx + 1)}
 
         # fill the remaining positions
         for i in range(size):
-            if not (start_idx <= i < end_idx):
+            if not (start_idx <= i < end_idx + 1):
                 candidate = parent_2_encoding[i]
                 # resolve conflicts via mapping
                 while candidate in mapping:
@@ -42,7 +43,7 @@ class PartiallyMatchedCrossover(PartiallyMatchedCrossoverBase, Crossover):
             parent_2_encoding = parents[parent_2_idx].encoding
 
             if random.random() < self.crossover_probability:
-                start_idx, end_idx = sorted(random.sample(range(len(parent_1_encoding) + 1), 2))
+                start_idx, end_idx = sorted(random.sample(range(len(parent_1_encoding)), 2))
 
                 offspring.append(
                     Individual(encoding=self._crossover(parent_1_encoding, parent_2_encoding, start_idx, end_idx)))
@@ -60,7 +61,7 @@ def test():
     parent_1_encoding = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     parent_2_encoding = [9, 3, 7, 8, 2, 6, 5, 1, 4]
     start_idx = 3
-    end_idx = 7
+    end_idx = 6
 
     assert x._crossover(parent_1_encoding, parent_2_encoding, start_idx, end_idx) == [9, 3, 2, 4, 5, 6, 7, 1, 8]
 

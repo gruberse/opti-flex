@@ -11,7 +11,8 @@ from app.models.solver.ga.crossover.obj import Crossover
 # based on "Introduction to Evolutionary Computation" by Eiben and Smith (2015)
 class CycleCrossover(CycleCrossoverBase, Crossover):
 
-    def _crossover(self, parent_1_encoding: List[int], parent_2_encoding: List[int]) -> List[int]:
+    @staticmethod
+    def _crossover(parent_1_encoding: List[int], parent_2_encoding: List[int]) -> List[int]:
 
         child_encoding = np.full(len(parent_1_encoding), np.nan)
         p1 = np.array(parent_1_encoding)
