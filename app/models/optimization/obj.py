@@ -69,11 +69,6 @@ class Optimization(OptimizationBase):
 
 
     def run(self, async_run: bool) -> bool:
-        """
-        Creates a new process for the optimization run and starts it.
-        :param async_run: Boolean to determine if the optimization run should be asynchronous or not.
-        :return: Indicates if the optimization run was started successfully.
-        """
         self.statistics.time_optimization_started.value = datetime.now().timestamp()
         try:
             self.optimization_process = Process(target=self.solver.solve,
@@ -106,10 +101,6 @@ class Optimization(OptimizationBase):
             return False
 
     def abort(self) -> bool:
-        """
-        Aborts the optimization and calls for an update of the optimization
-        :return: Indicates if the optimization was aborted successfully.
-        """
         if (self.optimization_process is None) or (not self.optimization_process.is_alive()):
             return False
 
@@ -119,11 +110,6 @@ class Optimization(OptimizationBase):
         return True
 
     def update(self) -> None:
-        """
-        Updates the attributes of the optimization and the result if the optimization is running or finished
-        Only pareto optimal solutions are in the optimization result and populations of the statistics
-        :return: None
-        """
         # in the case of exception, do not provide a result
         if self.optimization_process and self.optimization_process.exception:
             self.status = Status.FAILED
