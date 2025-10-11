@@ -8,7 +8,9 @@ from app.models.solver.ga.mutation.swap.base import SwapMutationBase
 
 # based on "Introduction to Evolutionary Computation" by Eiben and Smith (2015)
 class SwapMutation(SwapMutationBase, Mutation):
-    def _mutate(self, encoding: List[int], idx_1: int, idx_2: int) -> List[int]:
+
+    @staticmethod
+    def _mutate(encoding: List[int], idx_1: int, idx_2: int) -> List[int]:
         encoding[idx_1], encoding[idx_2] = encoding[idx_2], encoding[idx_1]
         return encoding
 

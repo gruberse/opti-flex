@@ -9,7 +9,8 @@ from app.models.solver.ga.mutation.obj import Mutation
 # based on "Introduction to Evolutionary Computation" by Eiben and Smith (2015)
 class InsertMutation(InsertMutationBase, Mutation):
 
-    def _mutate(self, encoding: List[int], idx_1: int, idx_2: int) -> List[int]:
+    @staticmethod
+    def _mutate(encoding: List[int], idx_1: int, idx_2: int) -> List[int]:
         gene_value = encoding.pop(idx_1)
         if idx_1 < idx_2:
             idx_2 -= 1

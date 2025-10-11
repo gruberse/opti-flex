@@ -9,7 +9,8 @@ from app.models.solver.ga.mutation.scramble.base import ScrambleMutationBase
 # based on "Introduction to Evolutionary Computation" by Eiben and Smith (2015)
 class ScrambleMutation(ScrambleMutationBase, Mutation):
 
-    def _mutate(self, encoding: List[int], idx_1: int, idx_2: int) -> List[int]:
+    @staticmethod
+    def _mutate(encoding: List[int], idx_1: int, idx_2: int) -> List[int]:
         subsequence = encoding[idx_1:idx_2 + 1]
         random.shuffle(subsequence)
         encoding[idx_1:idx_2 + 1] = subsequence
