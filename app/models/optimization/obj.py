@@ -47,7 +47,7 @@ class Optimization(OptimizationBase):
 
     def _shutdown_processes(self):
         if self.optimization_process:
-            self.optimization_process.kill()
+            self.optimization_process.terminate()
             self.optimization_process.join()
 
             self.population_queue.put(None)
@@ -55,15 +55,16 @@ class Optimization(OptimizationBase):
 
     @staticmethod
     def _process_population(population_queue: multiprocessing.Queue, populations: List, time_optimization_stopped: multiprocessing.Value) -> None:
-        i = population_queue.get(block=True)
-        while i is not None:
+        while True:
+            i = population_queue.get(block=True)
+            if i is None:
+                break
+
             population = populations[i]
 
             population.non_dominated_individuals[:] = population.get_non_dominated_individuals()
 
             populations[i] = population
-
-            i = population_queue.get(block=True)
 
         time_optimization_stopped.value = datetime.now().timestamp()
 
