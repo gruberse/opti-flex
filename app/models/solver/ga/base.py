@@ -11,10 +11,3 @@ class GeneticAlgorithmBase(ABC, BaseModel):
     n_parents: int
 
     random_seed: Optional[int] = None
-
-    @model_validator(mode='after')
-    def validate_setup(self):
-        if self.population_size % 2 != 0:
-            raise ValueError('population size must be an even number')
-
-        return self

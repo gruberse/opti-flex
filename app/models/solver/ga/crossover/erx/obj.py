@@ -81,7 +81,7 @@ class EdgeRecombinationCrossover(EdgeRecombinationCrossoverBase, Crossover):
     def crossover_parents(self, parents: List[Individual], n_offspring: int) -> List[Individual]:
         offspring = []
 
-        for _ in range(n_offspring):
+        while len(offspring) < n_offspring:
             parent_1_idx, parent_2_idx = sorted(random.sample(range(len(parents)), 2))
             parent_1_encoding = parents[parent_1_idx].encoding
             parent_2_encoding = parents[parent_2_idx].encoding

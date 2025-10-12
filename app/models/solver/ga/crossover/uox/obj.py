@@ -35,7 +35,7 @@ class UniformOrderBasedCrossover(UniformOrderBasedCrossoverBase, Crossover):
     def crossover_parents(self, parents: List[Individual], n_offspring) -> List[Individual]:
         offspring = []
 
-        for _ in range(n_offspring // 2):
+        while len(offspring) < n_offspring:
             parent_1_idx, parent_2_idx = random.sample(range(len(parents)), 2)
             parent_1_encoding = parents[parent_1_idx].encoding
             parent_2_encoding = parents[parent_2_idx].encoding
@@ -45,13 +45,17 @@ class UniformOrderBasedCrossover(UniformOrderBasedCrossoverBase, Crossover):
                 if isinstance(mask, float):
                     mask = np.array([mask])
 
-                offspring.append(
-                    Individual(encoding=self._crossover(parent_1_encoding, parent_2_encoding, mask)))
-                offspring.append(
-                    Individual(encoding=self._crossover(parent_2_encoding, parent_1_encoding, mask)))
+                new_offspring = [
+                    Individual(encoding=self._crossover(parent_1_encoding, parent_2_encoding, mask)),
+                    Individual(encoding=self._crossover(parent_2_encoding, parent_1_encoding, mask))
+                ]
             else:
-                offspring.append(Individual(encoding=parent_1_encoding))
-                offspring.append(Individual(encoding=parent_2_encoding))
+                new_offspring = [
+                    Individual(encoding=parent_1_encoding),
+                    Individual(encoding=parent_2_encoding)
+                ]
+
+            offspring.extend(new_offspring[:n_offspring - len(offspring)])
 
         return offspring
 
