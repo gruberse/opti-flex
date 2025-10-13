@@ -20419,8 +20419,8 @@
     "population_size": 50,
     "n_generations": 100,
     "n_parents": 50,
-    "selection": {
-      "selection_type": "tournament_nsga2"
+    "parent_selection": {
+      "parent_selection_type": "tournament_nsga2"
     },
     "crossover": {
       "crossover_type": "pmx",
@@ -20433,8 +20433,8 @@
     "re_evaluation": {
         "re_evaluation_type": "population"
     },
-    "reduction": {
-        "reduction_type": "nsga2"
+    "survivor_selection": {
+        "survivor_selection_type": "nsga2"
     }
   }
 }

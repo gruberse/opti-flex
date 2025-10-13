@@ -46,11 +46,11 @@
   },
   "solver": {
     "solver_type": "ga",
-    "population_size": 50,
-    "n_generations": 100,
-    "n_parents": 50,
-    "selection": {
-      "selection_type": "tournament",
+    "population_size": 10,
+    "n_generations": 2,
+    "n_parents": 10,
+    "parent_selection": {
+      "parent_selection_type": "tournament",
       "tournament_size": 2
     },
     "crossover": {
@@ -63,10 +63,10 @@
     },
     "re_evaluation": {
         "re_evaluation_type": "elitists",
-        "n_elitists": 10
+        "n_elitists": 2
     },
-    "reduction": {
-        "reduction_type": "truncation"
+    "survivor_selection": {
+        "survivor_selection_type": "truncation"
     }
   }
 }

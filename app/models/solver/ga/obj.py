@@ -11,18 +11,18 @@ from app.models.problem.obj import Problem
 from app.models.solver.ga.base import GeneticAlgorithmBase
 from app.models.solver.ga.crossover.obj import Crossover
 from app.models.solver.ga.mutation.obj import Mutation
-from app.models.solver.ga.selection.obj import Selection
+from app.models.solver.ga.parent_selection.obj import ParentSelection
 from app.models.solver.ga.re_evaluation.obj import ReEvaluation
-from app.models.solver.ga.reduction.obj import Reduction
+from app.models.solver.ga.survivor_selection.obj import SurvivorSelection
 from app.models.solver.obj import Solver
 
 
 class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
-    selection: Selection
+    parent_selection: ParentSelection
     crossover: Crossover
     mutation: Mutation
-    reduction: Reduction
     re_evaluation: ReEvaluation
+    survivor_selection: SurvivorSelection
 
 
     def solve(self, problem: Problem, population_queue: multiprocessing.Queue, populations: List) -> None:
@@ -45,8 +45,8 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
         # calculate the fitness of the initial population
         candidates = problem.evaluate_individuals(candidates)
 
-        # survivor selection
-        survivors = self.reduction.reduce_individuals(candidates, self.population_size)
+        # survivor parent_selection
+        survivors = self.survivor_selection.select_individuals(candidates, self.population_size)
 
         initial_population.individuals = survivors
         initial_population.end_time = datetime.now()
@@ -60,7 +60,7 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             current_population = Population(population_id=population_id, start_time=datetime.now())
 
             # select the parents
-            selected_parents = self.selection.select_parents(survivors, self.n_parents)
+            selected_parents = self.parent_selection.select_individuals(survivors, self.n_parents)
 
             # apply crossover
             offspring = self.crossover.crossover_parents(
@@ -75,14 +75,14 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             evaluation_individuals = self.re_evaluation.get_evaluation_individuals(
                 populations[-1].individuals,
                 mutated_offspring,
-                self.reduction
+                self.survivor_selection
             )
 
             # evaluate fitness
             evaluated_individuals = problem.evaluate_individuals(evaluation_individuals)
 
-            # survivor selection
-            survivors = self.reduction.reduce_individuals(evaluated_individuals, self.population_size)
+            # survivor parent_selection
+            survivors = self.survivor_selection.select_individuals(evaluated_individuals, self.population_size)
 
             current_population.individuals = survivors
             current_population.end_time = datetime.now()

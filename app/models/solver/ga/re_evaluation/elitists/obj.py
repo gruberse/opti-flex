@@ -5,7 +5,7 @@ from app.models.individual.obj import Individual
 
 from app.models.solver.ga.re_evaluation.elitists.base import ElitistsReEvaluationBase
 from app.models.solver.ga.re_evaluation.obj import ReEvaluation
-from app.models.solver.ga.reduction.truncation.obj import TruncationReduction
+from app.models.solver.ga.survivor_selection.truncation.obj import TruncationSelection
 
 
 class ElitistsReEvaluation(ElitistsReEvaluationBase, ReEvaluation):
@@ -14,7 +14,7 @@ class ElitistsReEvaluation(ElitistsReEvaluationBase, ReEvaluation):
         return population_size - self.n_elitists
 
     def get_evaluation_individuals(self, parents: List[Individual], offspring: List[Individual], survival_selection: Any) -> List[Individual]:
-        elitists = survival_selection.reduce_individuals(parents, self.n_elitists)
+        elitists = survival_selection.select_individuals(parents, self.n_elitists)
         return elitists + offspring
 
 
@@ -27,7 +27,7 @@ def test():
     ]
     offspring = [Individual(encoding=[2])]
 
-    individuals = m.get_evaluation_individuals(parents, offspring, TruncationReduction())
+    individuals = m.get_evaluation_individuals(parents, offspring, TruncationSelection())
 
     assert len(individuals) == 2
     assert individuals[0].encoding == [0]
