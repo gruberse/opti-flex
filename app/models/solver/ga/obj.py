@@ -45,7 +45,7 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
         # calculate the fitness of the initial population
         candidates = problem.evaluate_individuals(candidates)
 
-        # survivor parent_selection
+        # survivor selection
         survivors = self.survivor_selection.select_individuals(candidates, self.population_size)
 
         initial_population.individuals = survivors
@@ -81,7 +81,7 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             # evaluate fitness
             evaluated_individuals = problem.evaluate_individuals(evaluation_individuals)
 
-            # survivor parent_selection
+            # survivor selection
             survivors = self.survivor_selection.select_individuals(evaluated_individuals, self.population_size)
 
             current_population.individuals = survivors
