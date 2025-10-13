@@ -12,7 +12,7 @@ class AboveObfuscation(AboveObfuscationBase, Obfuscation):
 
     def __init__(self, /, **data):
         super().__init__(**data)
-        self.endpoint_privacy_engine = f'computeClassification/{round(self.threshold * 100)}'
+        self.endpoint_privacy_engine = f'computeClassification/{self.threshold}'
 
     def obfuscate_and_estimate(self, fitness_list: List[Fitness]) -> List[Fitness]:
         fitness_values = [fitness.actual_fitness for fitness in fitness_list]
@@ -27,7 +27,7 @@ class AboveObfuscation(AboveObfuscationBase, Obfuscation):
             reverse=True # sort in descending order
         )
 
-        fitness_threshold = minimum_fitness + ((maximum_fitness - minimum_fitness) * self.threshold)
+        fitness_threshold = minimum_fitness + ((maximum_fitness - minimum_fitness) * (self.threshold / 100))
         individuals_above_threshold = [i for i in indices_sorted_individuals if fitness_values[i] >= fitness_threshold]
 
         if len(fitness_list) > 3:
@@ -56,7 +56,7 @@ class AboveObfuscation(AboveObfuscationBase, Obfuscation):
 
 
 def test():
-    obfuscation = AboveObfuscation(threshold=0.7)
+    obfuscation = AboveObfuscation(threshold=70)
 
     fitness_list = [
         Fitness(objective_id="test", actual_fitness=100),

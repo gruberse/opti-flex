@@ -6,4 +6,4 @@ from pydantic import BaseModel
 
 class AboveObfuscationBase(ABC, BaseModel):
     obfuscation_type: Literal["above"] = "above"
-    threshold: float
+    threshold: int
