@@ -1,3 +1,4 @@
+import random
 from typing import List
 
 from app.models.fitness.obj import Fitness
@@ -16,6 +17,9 @@ class TruncationSelection(TruncationSelectionBase, SurvivorSelection):
         if len(individuals) <= population_size:
             return individuals
 
+        # shuffle in case of many individuals having the same fitness
+        random.shuffle(individuals)
+
         individuals.sort(key=lambda individual: individual.fitness_list[0].get_estimated_or_actual_fitness(), reverse=True)
         return individuals[:population_size]
 
@@ -31,7 +35,9 @@ def test():
         Individual(encoding=[3], fitness_list=[Fitness(objective_id='test', actual_fitness=100, estimated_fitness=60)]),
     ]
 
+    random.seed(1)
+
     survivors = s.select_individuals(individuals, population_size)
 
-    assert survivors[0].encoding == [1]
+    assert survivors[0].encoding == [3]
     assert survivors[1].encoding == [2]
