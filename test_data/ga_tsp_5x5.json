@@ -49,8 +49,9 @@
     "population_size": 50,
     "n_generations": 100,
     "n_parents": 50,
-    "parent_selection": {
-      "parent_selection_type": "tournament"
+    "selection": {
+      "selection_type": "tournament",
+      "tournament_size": 2
     },
     "crossover": {
       "crossover_type": "pmx",
@@ -64,8 +65,8 @@
         "re_evaluation_type": "elitists",
         "n_elitists": 10
     },
-    "survivor_selection": {
-        "survivor_selection_type": "truncation"
+    "reduction": {
+        "reduction_type": "truncation"
     }
   }
 }
