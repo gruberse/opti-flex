@@ -1,5 +1,3 @@
-from typing import Any
-
 from app.models.base_mapper import BaseMapper
 from app.models.solver.ga.crossover.registry import CrossoverMapperRegistry
 from app.models.solver.ga.dto import GeneticAlgorithmDTO

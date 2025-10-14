@@ -1,5 +1,3 @@
-from typing import Any
-
 from app.models.base_mapper import BaseMapper
 from app.models.solver.ga.parent_selection.tournament_nsga2.dto import NSGA2basedTournamentSelectionDTO
 from app.models.solver.ga.parent_selection.tournament_nsga2.obj import NSGA2basedTournamentSelection

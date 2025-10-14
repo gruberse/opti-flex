@@ -1,6 +1,6 @@
+from .assignment.mapper import AssignmentMapper
 from .dto import AssignmentProblemInputDTO, AssignmentProblemOutputDTO, AssignmentProblemOutputResultDTO
 from .obj import AssignmentProblem
-from .assignment.mapper import AssignmentMapper
 from ..problem_mapper import ProblemMapper
 from ...objective.ap.mapper import AssignmentObjectiveMapper
 

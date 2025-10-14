@@ -1,5 +1,3 @@
-from typing import Any
-
 from app.models.base_mapper import BaseMapper
 from app.models.solver.ga.mutation.shift.dto import ShiftMutationDTO
 from app.models.solver.ga.mutation.shift.obj import ShiftMutation

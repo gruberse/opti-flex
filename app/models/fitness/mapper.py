@@ -17,4 +17,4 @@ class FitnessMapper(BaseMapper):
 
     @staticmethod
     def from_dto(**kwargs) -> Any:
-        raise Exception("FitnessMapper.from_dto() is not yet implemented")
+        pass

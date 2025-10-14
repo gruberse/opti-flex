@@ -1,13 +1,10 @@
-from typing import List, Optional, Any, Generator
-
-import numpy as np
+from typing import List
 
 from app.models.fitness.obj import Fitness
 from app.models.individual.obj import Individual
 from app.models.solver.ga.survivor_selection.nsga2.base import NSGA2basedSurvivorSelectionBase
 from app.models.solver.ga.survivor_selection.nsga2.custom.individual import NSGA2Individual
 from app.models.solver.ga.survivor_selection.nsga2.custom.utils import fast_non_dominated_sorting
-
 from app.models.solver.ga.survivor_selection.obj import SurvivorSelection
 
 

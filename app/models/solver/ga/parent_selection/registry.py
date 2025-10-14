@@ -1,5 +1,3 @@
-import enum
-
 from app.models.base_mapper import BaseMapper
 from app.models.solver.ga.parent_selection.tournament.mapper import TournamentSelectionMapper
 from app.models.solver.ga.parent_selection.tournament_nsga2.mapper import NSGA2basedTournamentSelectionMapper

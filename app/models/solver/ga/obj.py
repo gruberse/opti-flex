@@ -1,7 +1,7 @@
 import multiprocessing
 import random
 from datetime import datetime
-from typing import List, Any
+from typing import List, Optional
 
 import numpy as np
 
@@ -46,7 +46,10 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
         candidates = problem.evaluate_individuals(candidates)
 
         # survivor selection
-        survivors = self.survivor_selection.select_individuals(candidates, self.population_size)
+        survivors = self.survivor_selection.select_individuals(
+            individuals=candidates,
+            n_survivors=self.population_size
+        )
 
         initial_population.individuals = survivors
         initial_population.end_time = datetime.now()
@@ -60,29 +63,37 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             current_population = Population(population_id=population_id, start_time=datetime.now())
 
             # select the parents
-            selected_parents = self.parent_selection.select_individuals(survivors, self.n_parents)
+            selected_parents = self.parent_selection.select_individuals(
+                individuals=survivors,
+                n_parents=self.n_parents
+            )
 
             # apply crossover
             offspring = self.crossover.crossover_parents(
-                selected_parents,
-                self.re_evaluation.get_remaining_population_size(self.population_size)
+                parents=selected_parents,
+                n_offspring=self.re_evaluation.get_remaining_population_size(
+                    population_size=self.population_size
+                )
             )
 
             # apply mutation
-            mutated_offspring = self.mutation.mutate_offspring(offspring)
+            mutated_offspring = self.mutation.mutate_offspring(offspring=offspring)
 
             # select individuals for evaluation
             evaluation_individuals = self.re_evaluation.get_evaluation_individuals(
-                populations[-1].individuals,
-                mutated_offspring,
-                self.survivor_selection
+                parents=populations[-1].individuals,
+                offspring=mutated_offspring,
+                survival_selection=self.survivor_selection
             )
 
             # evaluate fitness
-            evaluated_individuals = problem.evaluate_individuals(evaluation_individuals)
+            evaluated_individuals = problem.evaluate_individuals(individuals=evaluation_individuals)
 
             # survivor selection
-            survivors = self.survivor_selection.select_individuals(evaluated_individuals, self.population_size)
+            survivors = self.survivor_selection.select_individuals(
+                individuals=evaluated_individuals,
+                n_survivors=self.population_size
+            )
 
             current_population.individuals = survivors
             current_population.end_time = datetime.now()

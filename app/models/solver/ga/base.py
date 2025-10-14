@@ -1,7 +1,8 @@
 from abc import ABC
 from typing import Literal, Optional
 
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel
+
 
 class GeneticAlgorithmBase(ABC, BaseModel):
     solver_type: Literal["ga"] = "ga"

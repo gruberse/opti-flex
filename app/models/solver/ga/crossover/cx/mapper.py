@@ -1,5 +1,3 @@
-from typing import Any
-
 from app.models.base_mapper import BaseMapper
 from app.models.solver.ga.crossover.cx.dto import CycleCrossoverDTO
 from app.models.solver.ga.crossover.cx.obj import CycleCrossover

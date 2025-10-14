@@ -1,7 +1,7 @@
 from typing import List
 
-from .base import AssignmentProblemBase
 from .assignment.obj import Assignment
+from .base import AssignmentProblemBase
 from ..obj import Problem
 from ...individual.obj import Individual
 from ...objective.ap.obj import AssignmentObjective

@@ -1,5 +1,3 @@
-from typing import Any
-
 from app.models.base_mapper import BaseMapper
 from app.models.solver.ga.crossover.uox.dto import UniformOrderBasedCrossoverDTO
 from app.models.solver.ga.crossover.uox.obj import UniformOrderBasedCrossover

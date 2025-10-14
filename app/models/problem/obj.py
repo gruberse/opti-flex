@@ -2,7 +2,6 @@ import concurrent.futures
 from abc import abstractmethod
 from typing import List
 
-from app.models.population.obj import Population
 from .base import ProblemBase
 from ..individual.obj import Individual
 from ..objective.obj import Objective

@@ -28,4 +28,4 @@ class StatisticsMapper(BaseMapper):
 
     @staticmethod
     def from_dto(optimization_statistics_dto):
-        raise Exception("Not implemented")
+        pass

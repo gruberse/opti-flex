@@ -1,5 +1,3 @@
-from typing import Any
-
 from app.models.base_mapper import BaseMapper
 from app.models.solver.ga.survivor_selection.nsga2.dto import NSGA2basedSurvivorSelectionDTO
 from app.models.solver.ga.survivor_selection.nsga2.obj import NSGA2basedSurvivorSelection

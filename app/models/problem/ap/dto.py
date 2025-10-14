@@ -1,7 +1,7 @@
 from typing import List
 
-from .base import AssignmentProblemBase
 from .assignment.dto import AssignmentDTO
+from .base import AssignmentProblemBase
 from ..dto import ProblemDTO
 from ...objective.ap.dto import AssignmentObjectiveDTO
 

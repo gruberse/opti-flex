@@ -1,5 +1,3 @@
-from typing import Any
-
 from app.models.base_mapper import BaseMapper
 from app.models.solver.ga.re_evaluation.elitists.dto import ElitistsReEvaluationDTO
 from app.models.solver.ga.re_evaluation.elitists.obj import ElitistsReEvaluation

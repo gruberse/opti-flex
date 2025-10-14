@@ -18,4 +18,4 @@ class IndividualMapper(BaseMapper):
 
     @staticmethod
     def from_dto(**kwargs) -> Any:
-        raise Exception("Not implemented")
+        pass

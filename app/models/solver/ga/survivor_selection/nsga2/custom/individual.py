@@ -1,6 +1,4 @@
-from typing import Optional, List, Generator, Any
-
-import numpy as np
+from typing import Optional, List
 
 from app.models.individual.obj import Individual
 

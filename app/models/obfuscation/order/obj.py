@@ -2,7 +2,6 @@ from typing import Dict, List
 
 from app.models.fitness.obj import Fitness
 from app.models.obfuscation.obj import Obfuscation
-from app.models.population.obj import Population
 from .base import OrderObfuscationBase
 from ...individual.obj import Individual
 

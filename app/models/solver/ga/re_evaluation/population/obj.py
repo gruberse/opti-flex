@@ -1,8 +1,6 @@
 from typing import List, Any
 
 from app.models.individual.obj import Individual
-
-from app.models.solver.ga.re_evaluation.dto import ReEvaluationDTO
 from app.models.solver.ga.re_evaluation.obj import ReEvaluation
 from app.models.solver.ga.re_evaluation.population.base import PopulationReEvaluationBase
 

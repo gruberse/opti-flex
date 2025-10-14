@@ -1,7 +1,7 @@
 import concurrent.futures
 import multiprocessing
 from datetime import datetime
-from typing import List, Optional, Dict, Union
+from typing import List, Optional, Dict
 
 import numpy as np
 from scipy.optimize import linear_sum_assignment

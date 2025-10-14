@@ -1,5 +1,3 @@
-from typing import Any
-
 from app.models.base_mapper import BaseMapper
 from app.models.solver.ga.mutation.inversion.dto import InversionMutationDTO
 from app.models.solver.ga.mutation.inversion.obj import InversionMutation

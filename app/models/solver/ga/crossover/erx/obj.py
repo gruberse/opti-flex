@@ -1,8 +1,6 @@
 import random
 from typing import List
 
-import numpy as np
-
 from app.models.individual.obj import Individual
 from app.models.solver.ga.crossover.erx.base import EdgeRecombinationCrossoverBase
 from app.models.solver.ga.crossover.obj import Crossover

@@ -3,7 +3,6 @@ import uuid
 from datetime import datetime
 from typing import Any, List
 
-
 from app.config import config
 from app.models.enums.config import ApplicationMode
 from .base import OptimizationBase

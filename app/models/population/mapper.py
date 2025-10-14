@@ -1,9 +1,9 @@
 from typing import Any
 
+from app.config import config
 from app.models.base_mapper import BaseMapper
 from .dto import PopulationDTO
 from .obj import Population
-from app.config import config
 from ..individual.mapper import IndividualMapper
 
 
@@ -27,4 +27,4 @@ class PopulationMapper(BaseMapper):
 
     @staticmethod
     def from_dto(**kwargs) -> Any:
-        raise Exception("Not implemented")
+        pass

@@ -2,7 +2,6 @@ from typing import List, Any
 
 from app.models.fitness.obj import Fitness
 from app.models.individual.obj import Individual
-
 from app.models.solver.ga.re_evaluation.elitists.base import ElitistsReEvaluationBase
 from app.models.solver.ga.re_evaluation.obj import ReEvaluation
 from app.models.solver.ga.survivor_selection.truncation.obj import TruncationSelection

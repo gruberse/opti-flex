@@ -1,5 +1,3 @@
-from typing import Any
-
 from app.models.base_mapper import BaseMapper
 from app.models.solver.ga.survivor_selection.truncation.dto import TruncationSelectionDTO
 from app.models.solver.ga.survivor_selection.truncation.obj import TruncationSelection

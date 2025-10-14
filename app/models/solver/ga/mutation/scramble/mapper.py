@@ -1,5 +1,3 @@
-from typing import Any
-
 from app.models.base_mapper import BaseMapper
 from app.models.solver.ga.mutation.scramble.dto import ScrambleMutationDTO
 from app.models.solver.ga.mutation.scramble.obj import ScrambleMutation

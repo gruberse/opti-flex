@@ -1,5 +1,3 @@
-from typing import Any
-
 from app.models.base_mapper import BaseMapper
 from app.models.solver.ga.crossover.erx.dto import EdgeRecombinationCrossoverDTO
 from app.models.solver.ga.crossover.erx.obj import EdgeRecombinationCrossover
