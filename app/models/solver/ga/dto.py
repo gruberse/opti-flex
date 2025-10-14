@@ -1,4 +1,4 @@
-from typing import Union, Optional
+from typing import Union
 
 from app.models.solver.dto import SolverDTO
 from app.models.solver.ga.base import GeneticAlgorithmBase
