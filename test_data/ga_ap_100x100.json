@@ -20431,7 +20431,7 @@
       "mutation_probability": 0.1
     },
     "re_evaluation": {
-        "re_evaluation_type": "none"
+        "re_evaluation_type": "population"
     },
     "environmental_selection": {
         "environmental_selection_type": "nsga2"
