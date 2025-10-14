@@ -9,6 +9,6 @@ class NoReEvaluation(NoReEvaluationBase, ReEvaluation):
     def get_remaining_population_size(self, population_size: int) -> int:
         return population_size
 
-    def get_evaluation_individuals(self, parents: List[Individual], offspring: List[Individual],
-                                   survival_selection: Any) -> List[Individual]:
+    def select_evaluation_individuals(self, parents: List[Individual], offspring: List[Individual],
+                                      survival_selection: Any) -> List[Individual]:
         return offspring

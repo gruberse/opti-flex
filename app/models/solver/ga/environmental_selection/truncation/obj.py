@@ -3,25 +3,25 @@ from typing import List
 
 from app.models.fitness.obj import Fitness
 from app.models.individual.obj import Individual
-from app.models.solver.ga.survivor_selection.obj import SurvivorSelection
-from app.models.solver.ga.survivor_selection.truncation.base import TruncationSelectionBase
+from app.models.solver.ga.environmental_selection.obj import EnvironmentalSelection
+from app.models.solver.ga.environmental_selection.truncation.base import TruncationSelectionBase
 
 
-class TruncationSelection(TruncationSelectionBase, SurvivorSelection):
+class TruncationSelection(TruncationSelectionBase, EnvironmentalSelection):
 
-    def select_individuals(self, individuals: List[Individual], n_survivors: int) -> List[Individual]:
+    def select_individuals(self, individuals: List[Individual], n_individuals: int) -> List[Individual]:
 
         if 1 < len(individuals[0].fitness_list):
-            raise RuntimeError('top k parent_selection can only be used for single-objective optimization')
+            raise RuntimeError('truncation environmental selection can only be used for single-objective optimization')
 
-        if len(individuals) <= n_survivors:
+        if len(individuals) <= n_individuals:
             return individuals
 
         # shuffle in case of many individuals having the same fitness
         random.shuffle(individuals)
 
         individuals.sort(key=lambda individual: individual.fitness_list[0].get_estimated_or_actual_fitness(), reverse=True)
-        return individuals[:n_survivors]
+        return individuals[:n_individuals]
 
 
 def test():

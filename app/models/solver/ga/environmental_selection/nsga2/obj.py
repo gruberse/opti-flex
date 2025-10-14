@@ -2,40 +2,40 @@ from typing import List
 
 from app.models.fitness.obj import Fitness
 from app.models.individual.obj import Individual
-from app.models.solver.ga.survivor_selection.nsga2.base import NSGA2basedSurvivorSelectionBase
-from app.models.solver.ga.survivor_selection.nsga2.custom.individual import NSGA2Individual
-from app.models.solver.ga.survivor_selection.nsga2.custom.utils import fast_non_dominated_sorting
-from app.models.solver.ga.survivor_selection.obj import SurvivorSelection
+from app.models.solver.ga.environmental_selection.nsga2.base import NSGA2basedEnvironmentalSelectionBase
+from app.models.solver.ga.environmental_selection.nsga2.custom.individual import NSGA2Individual
+from app.models.solver.ga.environmental_selection.nsga2.custom.utils import fast_non_dominated_sorting
+from app.models.solver.ga.environmental_selection.obj import EnvironmentalSelection
 
 
-class NSGA2basedSurvivorSelection(NSGA2basedSurvivorSelectionBase, SurvivorSelection):
+class NSGA2BasedEnvironmentalSelection(NSGA2basedEnvironmentalSelectionBase, EnvironmentalSelection):
 
-    def select_individuals(self, individuals: List[Individual], n_survivors: int) -> List[NSGA2Individual]:
+    def select_individuals(self, individuals: List[Individual], n_individuals: int) -> List[NSGA2Individual]:
 
         if len(individuals[0].fitness_list) < 2:
-            raise RuntimeError('nsga2 survivor_selection can only be used for multi-objective optimization')
+            raise RuntimeError('nsga2 environmental selection can only be used for multi-objective optimization')
 
-        survivors: List[NSGA2Individual] = []
+        selected_individuals: List[NSGA2Individual] = []
 
         generator_non_dominated_sorting = fast_non_dominated_sorting(individuals)
 
-        while len(survivors) < n_survivors:
+        while len(selected_individuals) < n_individuals:
             current_front = next(generator_non_dominated_sorting)
 
-            if len(survivors) + len(current_front) <= n_survivors:
-                survivors.extend(current_front)
+            if len(selected_individuals) + len(current_front) <= n_individuals:
+                selected_individuals.extend(current_front)
 
             else:
                 # select the best solutions based on the crowding distance
                 current_front.sort(key=lambda individual: individual.crowding_distance, reverse=True)
-                n_remaining_individuals = n_survivors - len(survivors)
-                survivors.extend(current_front[:n_remaining_individuals])
+                n_remaining_individuals = n_individuals - len(selected_individuals)
+                selected_individuals.extend(current_front[:n_remaining_individuals])
 
-        return survivors
+        return selected_individuals
 
 
 def test():
-    s = NSGA2basedSurvivorSelection()
+    s = NSGA2BasedEnvironmentalSelection()
 
     individuals = [
         Individual(

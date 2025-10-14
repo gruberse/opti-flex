@@ -20416,11 +20416,11 @@
   },
   "solver": {
     "solver_type": "ga",
-    "population_size": 50,
+    "population_size": 100,
     "n_generations": 100,
     "n_parents": 50,
     "parent_selection": {
-      "parent_selection_type": "tournament_nsga2"
+      "parent_selection_type": "nsga2_tournament"
     },
     "crossover": {
       "crossover_type": "pmx",
@@ -20431,10 +20431,10 @@
       "mutation_probability": 0.1
     },
     "re_evaluation": {
-        "re_evaluation_type": "population"
+        "re_evaluation_type": "none"
     },
-    "survivor_selection": {
-        "survivor_selection_type": "nsga2"
+    "environmental_selection": {
+        "environmental_selection_type": "nsga2"
     }
   }
 }

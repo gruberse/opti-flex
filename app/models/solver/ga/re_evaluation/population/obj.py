@@ -10,7 +10,7 @@ class PopulationReEvaluation(PopulationReEvaluationBase, ReEvaluation):
     def get_remaining_population_size(self, population_size: int) -> int:
         return population_size
 
-    def get_evaluation_individuals(self, parents: List[Individual], offspring: List[Individual], survival_selection: Any) -> List[Individual]:
+    def select_evaluation_individuals(self, parents: List[Individual], offspring: List[Individual], survival_selection: Any) -> List[Individual]:
         return parents + offspring
 
 
@@ -20,7 +20,7 @@ def test():
     parents = [Individual(encoding=[0])]
     offspring = [Individual(encoding=[1])]
 
-    individuals = m.get_evaluation_individuals(parents, offspring, None)
+    individuals = m.select_evaluation_individuals(parents, offspring, None)
 
     assert len(individuals) == 2
 

@@ -5,7 +5,7 @@ from app.models.solver.ga.mutation.registry import MutationMapperRegistry
 from app.models.solver.ga.obj import GeneticAlgorithm
 from app.models.solver.ga.parent_selection.registry import ParentSelectionMapperRegistry
 from app.models.solver.ga.re_evaluation.registry import ReEvaluationMapperRegistry
-from app.models.solver.ga.survivor_selection.registry import SurvivorSelectionMapperRegistry
+from app.models.solver.ga.environmental_selection.registry import EnvironmentalSelectionMapperRegistry
 
 
 class GeneticAlgorithmMapper(BaseMapper):
@@ -19,7 +19,7 @@ class GeneticAlgorithmMapper(BaseMapper):
             crossover=CrossoverMapperRegistry.get_mapper(obj.crossover.crossover_type).to_dto(obj=obj.crossover),
             mutation=MutationMapperRegistry.get_mapper(obj.mutation.mutation_type).to_dto(obj=obj.mutation),
             re_evaluation=ReEvaluationMapperRegistry.get_mapper(obj.re_evaluation.re_evaluation_type).to_dto(obj=obj.re_evaluation),
-            survivor_selection=SurvivorSelectionMapperRegistry.get_mapper(obj.survivor_selection.survivor_selection_type).to_dto(obj=obj.survivor_selection),
+            environmental_selection=EnvironmentalSelectionMapperRegistry.get_mapper(obj.environmental_selection.environmental_selection_type).to_dto(obj=obj.environmental_selection),
             random_seed=obj.random_seed,
         )
 
@@ -33,6 +33,6 @@ class GeneticAlgorithmMapper(BaseMapper):
             crossover=CrossoverMapperRegistry.get_mapper(dto.crossover.crossover_type).from_dto(dto=dto.crossover),
             mutation=MutationMapperRegistry.get_mapper(dto.mutation.mutation_type).from_dto(dto=dto.mutation),
             re_evaluation=ReEvaluationMapperRegistry.get_mapper(dto.re_evaluation.re_evaluation_type).from_dto(dto=dto.re_evaluation),
-            survivor_selection=SurvivorSelectionMapperRegistry.get_mapper(dto.survivor_selection.survivor_selection_type).from_dto(dto=dto.survivor_selection),
+            environmental_selection=EnvironmentalSelectionMapperRegistry.get_mapper(dto.environmental_selection.environmental_selection_type).from_dto(dto=dto.environmental_selection),
             random_seed=dto.random_seed,
         )

@@ -5,7 +5,7 @@ from app.models.fitness.obj import Fitness
 from app.models.individual.obj import Individual
 from app.models.solver.ga.parent_selection.obj import ParentSelection
 from app.models.solver.ga.parent_selection.tournament_nsga2.base import NSGA2basedTournamentSelectionBase
-from app.models.solver.ga.survivor_selection.nsga2.custom.individual import NSGA2Individual
+from app.models.solver.ga.environmental_selection.nsga2.custom.individual import NSGA2Individual
 
 
 class NSGA2basedTournamentSelection(NSGA2basedTournamentSelectionBase, ParentSelection):
@@ -13,10 +13,10 @@ class NSGA2basedTournamentSelection(NSGA2basedTournamentSelectionBase, ParentSel
     def select_individuals(self, individuals: List[NSGA2Individual], n_parents: int) -> List[Individual]:
 
         if len(individuals[0].fitness_list) < 2:
-            raise RuntimeError('nsga2 based tournament parent_selection can only be used for multi-objective optimization')
+            raise RuntimeError('nsga2 based tournament selection can only be used for multi-objective optimization')
 
         if not isinstance(individuals[0], NSGA2Individual):
-            raise RuntimeError('nsga2 based tournament parent_selection can only be used together with nsga2 based survivor parent_selection')
+            raise RuntimeError('nsga2 based tournament selection can only be used together with nsga2 based survivor parent_selection')
 
         parent_individuals = []
 

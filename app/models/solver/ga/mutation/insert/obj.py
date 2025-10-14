@@ -14,7 +14,7 @@ class InsertMutation(InsertMutationBase, Mutation):
         gene_value = encoding.pop(idx_1)
         if idx_1 < idx_2:
             idx_2 -= 1
-        encoding.insert(idx_2, gene_value)
+        encoding.insert(idx_2 + 1, gene_value)
         return encoding
 
 
@@ -42,9 +42,11 @@ def test():
     m = InsertMutation(mutation_probability=1.0)
     encoding = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     idx_1 = 4
-    idx_2 = 2
+    idx_2 = 1
 
     assert m._mutate(encoding, idx_1, idx_2) == [1, 2, 5, 3, 4, 6, 7, 8, 9]
+
+    assert m._mutate([1, 2, 3, 4, 5, 6, 7, 8, 9], 3, 6) == [1, 2, 3, 5, 6, 7, 4, 8, 9]
 
     offspring = [
         Individual(encoding=encoding),

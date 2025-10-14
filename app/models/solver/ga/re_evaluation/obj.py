@@ -12,5 +12,5 @@ class ReEvaluation(ReEvaluationBase):
         pass
 
     @abstractmethod
-    def get_evaluation_individuals(self, parents: List[Individual], offspring: List[Individual], survival_selection: Any) -> List[Individual]:
+    def select_evaluation_individuals(self, parents: List[Individual], offspring: List[Individual], survival_selection: Any) -> List[Individual]:
         pass

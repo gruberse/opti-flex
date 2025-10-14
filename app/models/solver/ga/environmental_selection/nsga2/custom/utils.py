@@ -4,7 +4,7 @@ import numpy as np
 
 from app.models.fitness.obj import Fitness
 from app.models.individual.obj import Individual
-from app.models.solver.ga.survivor_selection.nsga2.custom.individual import NSGA2Individual
+from app.models.solver.ga.environmental_selection.nsga2.custom.individual import NSGA2Individual
 
 
 def crowding_distances_assignment(individuals: List[NSGA2Individual]) -> List[NSGA2Individual]:

@@ -5,4 +5,4 @@ from pydantic import BaseModel
 
 
 class TruncationSelectionBase(ABC, BaseModel):
-    survivor_selection_type: Literal['truncation'] = 'truncation'
+    environmental_selection_type: Literal['truncation'] = 'truncation'

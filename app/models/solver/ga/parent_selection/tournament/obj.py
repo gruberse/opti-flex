@@ -12,7 +12,7 @@ class TournamentSelection(TournamentSelectionBase, ParentSelection):
     def select_individuals(self, individuals: List[Individual], n_parents: int) -> List[Individual]:
 
         if 1 < len(individuals[0].fitness_list):
-            raise RuntimeError('tournament parent_selection can only be used for single-objective optimization')
+            raise RuntimeError('tournament selection can only be used for single-objective optimization')
 
         parent_individuals = []
 

@@ -65,8 +65,8 @@
         "re_evaluation_type": "elitists",
         "n_elitists": 2
     },
-    "survivor_selection": {
-        "survivor_selection_type": "truncation"
+    "environmental_selection": {
+        "environmental_selection": "truncation"
     }
   }
 }
