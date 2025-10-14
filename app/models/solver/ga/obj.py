@@ -11,18 +11,16 @@ from app.models.problem.obj import Problem
 from app.models.solver.ga.base import GeneticAlgorithmBase
 from app.models.solver.ga.crossover.obj import Crossover
 from app.models.solver.ga.mutation.obj import Mutation
-from app.models.solver.ga.parent_selection.obj import ParentSelection
-from app.models.solver.ga.re_evaluation.obj import ReEvaluation
-from app.models.solver.ga.environmental_selection.obj import EnvironmentalSelection
+from app.models.solver.ga.selection.obj import Selection
+from app.models.solver.ga.survival.obj import Survival
 from app.models.solver.obj import Solver
 
 
 class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
-    parent_selection: ParentSelection
+    selection: Selection
     crossover: Crossover
     mutation: Mutation
-    re_evaluation: ReEvaluation
-    environmental_selection: EnvironmentalSelection
+    survival: Survival
 
 
     def solve(self, problem: Problem, population_queue: multiprocessing.Queue, populations: List) -> None:
@@ -38,6 +36,7 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
         # create the initial population
         initial_population = Population(population_id=0, start_time=datetime.now())
 
+        # create random individuals
         candidates = []
         for _ in range(self.population_size):
             candidates.append(Individual(encoding=random.sample(gene_space, problem_size)))
@@ -46,16 +45,19 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
         candidates = problem.evaluate_individuals(candidates)
 
         # environmental selection
-        selected_individuals = self.environmental_selection.select_individuals(
+        survivors = self.survival.select_individuals(
             individuals=candidates,
             n_individuals=self.population_size
         )
 
-        initial_population.individuals = selected_individuals
+        initial_population.individuals = survivors
         initial_population.end_time = datetime.now()
         populations.append(initial_population)
 
         population_queue.put(initial_population.population_id)
+
+        # set the remaining population size depending on the number of elitists
+        remaining_population_size = self.population_size - self.n_elitists
 
         # main loop
         for population_id in range(1, self.n_generations + 1):
@@ -63,39 +65,47 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             current_population = Population(population_id=population_id, start_time=datetime.now())
 
             # select the parents
-            selected_parents = self.parent_selection.select_individuals(
-                individuals=selected_individuals,
-                n_parents=self.n_parents
+            selected_parents = self.selection.select_individuals(
+                individuals=populations[-1].individuals,
+                n_individuals=remaining_population_size + 1,
+                # add 1 to address odd population sizes due to e.g. elitism
             )
 
             # apply crossover
             offspring = self.crossover.crossover_parents(
                 parents=selected_parents,
-                n_offspring=self.re_evaluation.get_remaining_population_size(
-                    population_size=self.population_size
-                )
+                n_offspring=remaining_population_size,
             )
 
             # apply mutation
             mutated_offspring = self.mutation.mutate_offspring(offspring=offspring)
 
             # select individuals for evaluation
-            evaluation_individuals = self.re_evaluation.select_evaluation_individuals(
-                parents=populations[-1].individuals,
-                offspring=mutated_offspring,
-                survival_selection=self.environmental_selection
-            )
+            evaluation_individuals = []
+            evaluation_individuals.extend(mutated_offspring)
+
+            #   add elitist individuals from the previous population
+            if self.n_elitists > 0:
+                evaluation_individuals.extend(
+                    self.survival.select_individuals(
+                        individuals=populations[-1].individuals,
+                        n_individuals=self.n_elitists)
+                )
+
+            #   add the previous population for re-evaluation
+            if self.re_evaluate_previous_population:
+                evaluation_individuals.extend(populations[-1].individuals)
 
             # evaluate fitness
             evaluated_individuals = problem.evaluate_individuals(individuals=evaluation_individuals)
 
             # environmental selection
-            selected_individuals = self.environmental_selection.select_individuals(
+            survivors = self.survival.select_individuals(
                 individuals=evaluated_individuals,
                 n_individuals=self.population_size
             )
 
-            current_population.individuals = selected_individuals
+            current_population.individuals = survivors
             current_population.end_time = datetime.now()
 
             populations.append(current_population)

@@ -37,10 +37,9 @@ class PartiallyMappedCrossover(PartiallyMappedCrossoverBase, Crossover):
     def crossover_parents(self, parents: List[Individual], n_offspring: int) -> List[Individual]:
         offspring = []
 
-        while len(offspring) < n_offspring:
-            parent_1_idx, parent_2_idx = random.sample(range(len(parents)), 2)
-            parent_1_encoding = parents[parent_1_idx].encoding
-            parent_2_encoding = parents[parent_2_idx].encoding
+        for i in range(0, len(parents) - 1, 2):
+            parent_1_encoding = parents[i].encoding
+            parent_2_encoding = parents[i + 1].encoding
 
             if random.random() < self.crossover_probability:
                 start_idx, end_idx = sorted(random.sample(range(len(parent_1_encoding)), 2))

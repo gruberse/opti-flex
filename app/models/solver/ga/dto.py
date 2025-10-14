@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Optional
 
 from app.models.solver.dto import SolverDTO
 from app.models.solver.ga.base import GeneticAlgorithmBase
@@ -12,18 +12,14 @@ from app.models.solver.ga.mutation.inversion.dto import InversionMutationDTO
 from app.models.solver.ga.mutation.scramble.dto import ScrambleMutationDTO
 from app.models.solver.ga.mutation.shift.dto import ShiftMutationDTO
 from app.models.solver.ga.mutation.swap.dto import SwapMutationDTO
-from app.models.solver.ga.parent_selection.tournament.dto import TournamentSelectionDTO
-from app.models.solver.ga.parent_selection.tournament_nsga2.dto import NSGA2basedTournamentSelectionDTO
-from app.models.solver.ga.re_evaluation.elitists.dto import ElitistsReEvaluationDTO
-from app.models.solver.ga.re_evaluation.none.dto import NoReEvaluationDTO
-from app.models.solver.ga.re_evaluation.population.dto import PopulationReEvaluationDTO
-from app.models.solver.ga.environmental_selection.nsga2.dto import NSGA2BasedEnvironmentalSelectionDTO
-from app.models.solver.ga.environmental_selection.truncation.dto import TruncationSelectionDTO
+from app.models.solver.ga.selection.tournament.dto import TournamentSelectionDTO
+from app.models.solver.ga.selection.tournament_nsga2.dto import NSGA2basedTournamentSelectionDTO
+from app.models.solver.ga.survival.nsga2.dto import NSGA2basedSurvivalDTO
+from app.models.solver.ga.survival.truncation.dto import TruncationSurvivalDTO
 
 
 class GeneticAlgorithmDTO(GeneticAlgorithmBase, SolverDTO):
-    parent_selection: Union[TournamentSelectionDTO, NSGA2basedTournamentSelectionDTO]
+    selection: Union[TournamentSelectionDTO, NSGA2basedTournamentSelectionDTO]
     crossover: Union[OrderCrossoverDTO, PartiallyMappedCrossoverDTO, UniformOrderBasedCrossoverDTO, CycleCrossoverDTO, EdgeRecombinationCrossoverDTO]
     mutation: Union[InversionMutationDTO, InsertMutationDTO, ScrambleMutationDTO, ShiftMutationDTO, SwapMutationDTO]
-    re_evaluation: Union[PopulationReEvaluationDTO, ElitistsReEvaluationDTO, NoReEvaluationDTO]
-    environmental_selection: Union[TruncationSelectionDTO, NSGA2BasedEnvironmentalSelectionDTO]
+    survival: Union[TruncationSurvivalDTO, NSGA2basedSurvivalDTO]

@@ -3,9 +3,8 @@ from app.models.solver.ga.crossover.registry import CrossoverMapperRegistry
 from app.models.solver.ga.dto import GeneticAlgorithmDTO
 from app.models.solver.ga.mutation.registry import MutationMapperRegistry
 from app.models.solver.ga.obj import GeneticAlgorithm
-from app.models.solver.ga.parent_selection.registry import ParentSelectionMapperRegistry
-from app.models.solver.ga.re_evaluation.registry import ReEvaluationMapperRegistry
-from app.models.solver.ga.environmental_selection.registry import EnvironmentalSelectionMapperRegistry
+from app.models.solver.ga.selection.registry import SelectionMapperRegistry
+from app.models.solver.ga.survival.registry import SurvivalMapperRegistry
 
 
 class GeneticAlgorithmMapper(BaseMapper):
@@ -14,12 +13,12 @@ class GeneticAlgorithmMapper(BaseMapper):
         return GeneticAlgorithmDTO(
             n_generations=obj.n_generations,
             population_size=obj.population_size,
-            n_parents=obj.n_parents,
-            parent_selection=ParentSelectionMapperRegistry.get_mapper(obj.parent_selection.parent_selection_type).to_dto(obj=obj.parent_selection),
+            n_elitists=obj.n_elitists,
+            re_evaluate_previous_population=obj.re_evaluate_previous_population,
+            selection=SelectionMapperRegistry.get_mapper(obj.selection.selection_type).to_dto(obj=obj.selection),
             crossover=CrossoverMapperRegistry.get_mapper(obj.crossover.crossover_type).to_dto(obj=obj.crossover),
             mutation=MutationMapperRegistry.get_mapper(obj.mutation.mutation_type).to_dto(obj=obj.mutation),
-            re_evaluation=ReEvaluationMapperRegistry.get_mapper(obj.re_evaluation.re_evaluation_type).to_dto(obj=obj.re_evaluation),
-            environmental_selection=EnvironmentalSelectionMapperRegistry.get_mapper(obj.environmental_selection.environmental_selection_type).to_dto(obj=obj.environmental_selection),
+            survival=SurvivalMapperRegistry.get_mapper(obj.survival.survival_type).to_dto(obj=obj.survival),
             random_seed=obj.random_seed,
         )
 
@@ -28,11 +27,11 @@ class GeneticAlgorithmMapper(BaseMapper):
         return GeneticAlgorithm(
             n_generations=dto.n_generations,
             population_size=dto.population_size,
-            n_parents=dto.n_parents,
-            parent_selection=ParentSelectionMapperRegistry.get_mapper(dto.parent_selection.parent_selection_type).from_dto(dto=dto.parent_selection),
+            n_elitists=dto.n_elitists,
+            re_evaluate_previous_population=dto.re_evaluate_previous_population,
+            selection=SelectionMapperRegistry.get_mapper(dto.selection.selection_type).from_dto(dto=dto.selection),
             crossover=CrossoverMapperRegistry.get_mapper(dto.crossover.crossover_type).from_dto(dto=dto.crossover),
             mutation=MutationMapperRegistry.get_mapper(dto.mutation.mutation_type).from_dto(dto=dto.mutation),
-            re_evaluation=ReEvaluationMapperRegistry.get_mapper(dto.re_evaluation.re_evaluation_type).from_dto(dto=dto.re_evaluation),
-            environmental_selection=EnvironmentalSelectionMapperRegistry.get_mapper(dto.environmental_selection.environmental_selection_type).from_dto(dto=dto.environmental_selection),
+            survival=SurvivalMapperRegistry.get_mapper(dto.survival.survival_type).from_dto(dto=dto.survival),
             random_seed=dto.random_seed,
         )
