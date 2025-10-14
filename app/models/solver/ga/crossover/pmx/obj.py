@@ -5,11 +5,11 @@ import numpy as np
 
 from app.models.individual.obj import Individual
 from app.models.solver.ga.crossover.obj import Crossover
-from app.models.solver.ga.crossover.pmx.base import PartiallyMatchedCrossoverBase
+from app.models.solver.ga.crossover.pmx.base import PartiallyMappedCrossoverBase
 
 
 # based on "Introduction to Evolutionary Computation" by Eiben and Smith (2015)
-class PartiallyMatchedCrossover(PartiallyMatchedCrossoverBase, Crossover):
+class PartiallyMappedCrossover(PartiallyMappedCrossoverBase, Crossover):
 
     @staticmethod
     def _crossover(parent_1_encoding: List[int], parent_2_encoding: List[int], start_idx: int, end_idx: int) -> \
@@ -61,7 +61,7 @@ class PartiallyMatchedCrossover(PartiallyMatchedCrossoverBase, Crossover):
 
 
 def test():
-    x = PartiallyMatchedCrossover(crossover_probability=1.0)
+    x = PartiallyMappedCrossover(crossover_probability=1.0)
     parent_1_encoding = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     parent_2_encoding = [9, 3, 7, 8, 2, 6, 5, 1, 4]
     start_idx = 3
