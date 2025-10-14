@@ -15,6 +15,7 @@ from app.models.solver.ga.mutation.swap.dto import SwapMutationDTO
 from app.models.solver.ga.parent_selection.tournament.dto import TournamentSelectionDTO
 from app.models.solver.ga.parent_selection.tournament_nsga2.dto import NSGA2basedTournamentSelectionDTO
 from app.models.solver.ga.re_evaluation.elitists.dto import ElitistsReEvaluationDTO
+from app.models.solver.ga.re_evaluation.none.dto import NoReEvaluationDTO
 from app.models.solver.ga.re_evaluation.population.dto import PopulationReEvaluationDTO
 from app.models.solver.ga.survivor_selection.nsga2.dto import NSGA2basedSurvivorSelectionDTO
 from app.models.solver.ga.survivor_selection.truncation.dto import TruncationSelectionDTO
@@ -24,5 +25,5 @@ class GeneticAlgorithmDTO(GeneticAlgorithmBase, SolverDTO):
     parent_selection: Union[TournamentSelectionDTO, NSGA2basedTournamentSelectionDTO]
     crossover: Union[OrderCrossoverDTO, PartiallyMappedCrossoverDTO, UniformOrderBasedCrossoverDTO, CycleCrossoverDTO, EdgeRecombinationCrossoverDTO]
     mutation: Union[InversionMutationDTO, InsertMutationDTO, ScrambleMutationDTO, ShiftMutationDTO, SwapMutationDTO]
-    re_evaluation: Union[PopulationReEvaluationDTO, ElitistsReEvaluationDTO]
+    re_evaluation: Union[PopulationReEvaluationDTO, ElitistsReEvaluationDTO, NoReEvaluationDTO]
     survivor_selection: Union[TruncationSelectionDTO, NSGA2basedSurvivorSelectionDTO]

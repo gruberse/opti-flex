@@ -1,5 +1,6 @@
 from app.models.base_mapper import BaseMapper
 from app.models.solver.ga.re_evaluation.elitists.mapper import ElitistsReEvaluationMapper
+from app.models.solver.ga.re_evaluation.none.mapper import NoReEvaluationMapper
 from app.models.solver.ga.re_evaluation.population.mapper import PopulationReEvaluationMapper
 
 
@@ -7,6 +8,7 @@ class ReEvaluationMapperRegistry:
     _mapper_registry: dict[str, BaseMapper] = {
         "population": PopulationReEvaluationMapper,
         "elitists": ElitistsReEvaluationMapper,
+        "none": NoReEvaluationMapper,
     }
 
 
