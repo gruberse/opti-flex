@@ -18,4 +18,4 @@ class TourMapper(BaseMapper):
 
     @staticmethod
     def from_dto(**kwargs) -> Any:
-        raise Exception("RoundtripMapper.from_dto() is not yet implemented")
+        pass

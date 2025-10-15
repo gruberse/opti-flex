@@ -48,7 +48,6 @@
     "solver_type": "ga",
     "population_size": 100,
     "n_generations": 100,
-    "n_parents": 50,
     "n_elitists": 5,
     "selection": {
       "selection_type": "tournament",

@@ -29,7 +29,7 @@ class ScipyLinearSumAssignment(ScipyLinearSumAssignmentBase, Solver):
         # compute an optimal solution
         row_ind, col_ind = linear_sum_assignment(cost_matrix=combined_weight_matrix, maximize=maximize)
 
-        # not every flight may have a tta assigned and vice versa
+        # not every worker may have a job assigned and vice versa
         encoding: np.ndarray = np.full(problem.get_problem_size(), -1, dtype=int)
         for i in range(len(row_ind)):
             encoding[row_ind[i]] = col_ind[i]

@@ -138,8 +138,7 @@
     "solver_type": "ga",
     "population_size": 100,
     "n_generations": 100,
-    "n_parents": 50,
-    "re_evaluate_previous_population": true,
+    "combine_populations": true,
     "selection": {
       "selection_type": "tournament_nsga2"
     },
