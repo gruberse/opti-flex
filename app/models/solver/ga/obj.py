@@ -84,16 +84,17 @@ class GeneticAlgorithm(GeneticAlgorithmBase, Solver):
             evaluation_individuals = []
             evaluation_individuals.extend(mutated_offspring)
 
-            #   add elitist individuals from the previous population
+            #   add elitists from the previous population
             if self.n_elitists > 0:
                 evaluation_individuals.extend(
                     self.survival.select_individuals(
                         individuals=populations[-1].individuals,
-                        n_individuals=self.n_elitists)
+                        n_individuals=self.n_elitists
+                    )
                 )
 
             #   add the previous population for re-evaluation
-            if self.re_evaluate_previous_population:
+            if self.combine_populations:
                 evaluation_individuals.extend(populations[-1].individuals)
 
             # evaluate fitness
