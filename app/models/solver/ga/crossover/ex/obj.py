@@ -2,13 +2,13 @@ import random
 from typing import List
 
 from app.models.individual.obj import Individual
-from app.models.solver.ga.crossover.erx.base import EdgeRecombinationCrossoverBase
+from app.models.solver.ga.crossover.ex.base import EdgeCrossoverBase
 from app.models.solver.ga.crossover.obj import Crossover
 
 
 # based on "Introduction to Evolutionary Computation" by Eiben and Smith (2015)
-# based on "Computational Intelligence" by Kruse et al. (2022)
-class EdgeRecombinationCrossover(EdgeRecombinationCrossoverBase, Crossover):
+# and "Computational Intelligence" by Kruse et al. (2022)
+class EdgeCrossover(EdgeCrossoverBase, Crossover):
 
     @staticmethod
     def _crossover(parent_1_encoding: List[int], parent_2_encoding: List[int]) -> List[int]:
@@ -95,7 +95,7 @@ class EdgeRecombinationCrossover(EdgeRecombinationCrossoverBase, Crossover):
 
 
 def test():
-    x = EdgeRecombinationCrossover(crossover_probability=1.0)
+    x = EdgeCrossover(crossover_probability=1.0)
     parent_1_encoding = [6, 3, 1, 5, 2, 7, 4]
     parent_2_encoding = [3, 7, 2, 5, 6, 1, 4]
 
