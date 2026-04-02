@@ -1,7 +1,7 @@
 # opti-flex
 
 ## Implementation of the Optimizer
-- The folder app contains the source code.
+- The folder app contains the source code. The main.py file is the application file.
 - The folder test_data contains synthetic optimization files for demonstration. The subfolders obfuscation_<obfuscation_type> provide additional optimization files for demonstrating obfuscation. For each obfuscation type, the corresponding subfolder contains two optimization files: one configured for use with the Privacy Engine, and another configured for simulating the Privacy Engine.
 - The Docker file may be used to create an image of the Optimizer
 - The requirements file contains the requirements to be installed.
