@@ -29,15 +29,15 @@ The Optimizer is implemented using FastAPI with the following interfaces (Swagge
 - PUT /optimizations/{optimization_id}/abort to abort a specific running optimization
 - DELETE /optimizations/{optimization_id} to delete a specific optimization
 
-## Docker
-### Build the image
+### Docker
+#### Build the Image
 ```bash
 docker build -t <IMAGE-NAME> .
 ```
 
-### Run the container
+#### Run the Container
 ```bash
 docker run -d --name <CONTAINER-NAME> -p 8001:8001 <IMAGE-NAME>
 ```
 
-Uvicorn server for the optimizer will be running on `http://127.0.0.1:8001`.
+Uvicorn server for the Optimizer will be running on `http://127.0.0.1:8001`.
