@@ -1,6 +1,25 @@
 # opti-flex
 
 ## Implementation of the Optimizer
+
+### API
+
+The Optimizer is implemented using FastAPI with the following interfaces:
+
+- GET /optimizations to retieve all optimizations
+- GET /optimizations/{optimization_id} to retrieve a specific optimization
+- GET /optimizations/{optimization_id}/statistics to retrieve the statistics of a specific optimization
+- GET /optimizations/{optimization_id}/result to retrieve the result of a specific optimization
+- POST /optimizations to create an optimization (requires an optimization file in the request body)
+- PUT /optimizations/{optimization_id}/start to start a specific optimization asynchronously
+- PUT /optimizations/{optimization_id}/start/wait to start a specific optimization synchronously
+- PUT /optimizations/{optimization_id}/abort to abort a specific running optimization
+- DELETE /optimizations/{optimization_id} to delete a specific optimization
+
+A Swagger documenation is available on /docs, e.g., `http://127.0.0.1:8000/docs`
+
+### Structure
+
 - The folder `app` contains the source code. The `main.py` file is the application file.
 - The folder `test_data` contains synthetic optimization files for demonstration. The subfolders `obfuscation_<obfuscation_type>` provide additional optimization files for demonstrating obfuscation. For each obfuscation type, the corresponding subfolder contains two optimization files: one configured for use with the Privacy Engine (expect the Privacy Engine to be available at `http://127.0.0.1:80` and the encoding service at `http://127.0.0.1:88`), and another configured for simulating the Privacy Engine.
 - The file `config.properties` supports two configurable settings: application mode and individuals in statistics.
