@@ -2,7 +2,7 @@
 
 ## Implementation of the Optimizer
 - The folder `app` contains the source code. The `main.py` file is the application file.
-- The folder `test_data` contains synthetic optimization files for demonstration. The subfolders `obfuscation_<obfuscation_type>` provide additional optimization files for demonstrating obfuscation. For each obfuscation type, the corresponding subfolder contains two optimization files: one configured for use with the Privacy Engine, and another configured for simulating the Privacy Engine.
+- The folder `test_data` contains synthetic optimization files for demonstration. The subfolders `obfuscation_<obfuscation_type>` provide additional optimization files for demonstrating obfuscation. For each obfuscation type, the corresponding subfolder contains two optimization files: one configured for use with the Privacy Engine (expect the Privacy Engine to be available at `http://127.0.0.1:80` and the encoding service at `http://127.0.0.1:88`), and another configured for simulating the Privacy Engine.
 - The file `config.properties` supports two configurable settings: application mode and individuals in statistics.
 - - The application mode can be set to either `dev` or `ops`: In `dev` mode, The Optimizer generates the same UUID for every optimization run. In `ops` mode, The Optimizer generates a unique UUID for every optimization run.
   - The `individuals` setting is a boolean (`True` or `False`) that determines whether the full population is included in the optimization statistics: If `True`, all individuals are included in the statistics, otherwise the individuals are not included. By default, this setting is `False` to minimize storage usage.
