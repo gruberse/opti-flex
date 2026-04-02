@@ -17,7 +17,7 @@
 
 ### API
 
-The Optimizer is implemented using FastAPI with the following interfaces:
+The Optimizer is implemented using FastAPI with the following interfaces (Swagger documentation available on /docs):
 
 - GET /optimizations to retieve all optimizations
 - GET /optimizations/{optimization_id} to retrieve a specific optimization
@@ -29,25 +29,7 @@ The Optimizer is implemented using FastAPI with the following interfaces:
 - PUT /optimizations/{optimization_id}/abort to abort a specific running optimization
 - DELETE /optimizations/{optimization_id} to delete a specific optimization
 
-A Swagger documenation is available on /docs, e.g., `http://127.0.0.1:8000/docs`
-
-### For local development
-#### Set up virtual environment and install requirements
-```bash
-pip install -r requirements.txt
-```
-
-#### Activate the virtual environment
-```bash
-source .venv/bin/activate
-```
-
-#### Run the live server
-```bash
-uvicorn uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
-```
-
-### Run via Docker
+## Docker
 ### Build the image
 ```bash
 docker build -t <IMAGE-NAME> .
