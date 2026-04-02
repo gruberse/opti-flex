@@ -1,0 +1,100 @@
+{
+  "problem": {
+    "problem_type": "ap",
+    "objectives": [
+    {
+      "objective_id": "1",
+      "privacy_engine": "http://127.0.0.1:80",
+      "encoding_url": "http://127.0.0.1:88",
+      "obfuscation": {
+        "obfuscation_type": "buckets",
+        "buckets": 3
+      },
+      "weights": [
+        [
+          37,
+          12,
+          72,
+          9,
+          75,
+          5,
+          79,
+          64,
+          16,
+          1
+        ],
+        [
+          76,
+          71,
+          6,
+          25,
+          50,
+          20,
+          18,
+          84,
+          11,
+          28
+        ],
+        [
+          29,
+          14,
+          50,
+          68,
+          87,
+          87,
+          94,
+          96,
+          86,
+          13
+        ],
+        [
+          9,
+          7,
+          63,
+          61,
+          22,
+          57,
+          1,
+          0,
+          60,
+          81
+        ],
+        [
+          8,
+          88,
+          13,
+          47,
+          72,
+          30,
+          71,
+          3,
+          70,
+          21
+        ]
+      ]
+    }
+  ]
+  },
+  "solver": {
+    "solver_type": "ga",
+    "population_size": 5,
+    "n_generations": 5,
+    "n_elitists": 0,
+    "selection": {
+      "selection_type": "tournament",
+      "tournament_size": 2
+    },
+    "crossover": {
+      "crossover_type": "pmx",
+      "crossover_probability": 1.0
+    },
+    "mutation": {
+      "mutation_type": "swap",
+      "mutation_probability": 1.0
+    },
+    "survival": {
+        "survival_type": "truncation"
+    },
+    "random_seed": 1
+  }
+}
