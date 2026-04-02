@@ -1,1 +1,33 @@
-init
+# opti-flex
+
+## Introduction
+Implementation of the Optimizer
+
+## For local development
+### Set up virtual environment and install requirements
+```bash
+pip install -r requirements.txt
+```
+
+### Activate the virtual environment
+```bash
+source .venv/bin/activate
+```
+
+### Run the live server
+```bash
+uvicorn uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+```
+
+## Docker
+### Build the image
+```bash
+docker build -t <IMAGE-NAME> .
+```
+
+### Run the container
+```bash
+docker run -d --name <CONTAINER-NAME> -p 8001:8001 <IMAGE-NAME>
+```
+
+Uvicorn server for the optimizer will be running on **http://localhost:8001**.
