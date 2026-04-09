@@ -42,4 +42,10 @@ docker run -d --name <CONTAINER-NAME> -p 8001:8001 <IMAGE-NAME>
 
 Uvicorn server for the Optimizer will be running on `http://127.0.0.1:8001`.
 
-You can run optimizations using the optimization files from `test_data` via e.g. the Swagger UI.
+#### Run an Optimization
+
+You can run optimizations using the example optimization files from `test_data` via e.g. the Swagger UI:
+
+- Create the optimization via HTTP POST /optimizations and provide the content of an optimization file in the request body. The Optimizer returns a UUID as the optimization ID.
+- Start the optimization via HTTP PUT /optimizations/{optimization_id}/start (asynchronously) or /optimizations/{optimization_id}/start/wait (synchronously).
+- You can request the current optimization result via HTTP GET /optimizations/{optimization_id}/result and statistics via HTTP GET /optimizations/{optimization_id}/statistics.
