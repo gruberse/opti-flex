@@ -49,3 +49,9 @@ You can run optimizations using the example optimization files from `test_data` 
 - Create the optimization via HTTP POST /optimizations and provide the content of an optimization file in the request body. The Optimizer returns a UUID as the optimization ID.
 - Start the optimization via HTTP PUT /optimizations/{optimization_id}/start (asynchronously) or /optimizations/{optimization_id}/start/wait (synchronously).
 - You can request the current optimization result via HTTP GET /optimizations/{optimization_id}/result and statistics via HTTP GET /optimizations/{optimization_id}/statistics.
+
+#### Run an Optimization with the Privacy Engine
+
+See [Privacy Engine](https://anonymous.4open.science/r/privacy-engine-4B6C) for setup and example optimization files in `test_data` with a file name including `privacy_engine`. These files are configured assuming a Privacy Engine instance is running on localhost port 80 (`http://127.0.0.1:80`) and the encoding service on localhost port 88 (`http://127.0.0.1:88`).
+
+
