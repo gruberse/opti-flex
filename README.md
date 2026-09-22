@@ -62,25 +62,25 @@ docker run -d --name <CONTAINER-NAME> -p 8001:8001 <IMAGE-NAME>
 
 Uvicorn server for the Optimizer will be running on `http://127.0.0.1:8001`.
 
-### 2.3. Run an Optimization
+## 3. Run an Optimization
 
 You can run optimizations using the optimization files from `test_data`, for example, via the Swagger UI:
 
-- Create the optimization by sending an HTTP `POST` request to `/optimizations` and providing the contents of an
+1. Create the optimization by sending an HTTP `POST` request to `/optimizations` and providing the contents of an
   optimization file in the request body. The Optimizer returns a UUID as the optimization ID.
-- Start the optimization by sending an HTTP `PUT` request to `/optimizations/{optimization_id}/start` (asynchronously)
+2. Start the optimization by sending an HTTP `PUT` request to `/optimizations/{optimization_id}/start` (asynchronously)
   or `/optimizations/{optimization_id}/start/wait` (synchronously).
-- Retrieve the current optimization result by sending an HTTP `GET` request to
+3. Retrieve the current optimization result by sending an HTTP `GET` request to
   `/optimizations/{optimization_id}/result`.
-- Retrieve the optimization statistics by sending an HTTP `GET` request to
+4. Retrieve the optimization statistics by sending an HTTP `GET` request to
   `/optimizations/{optimization_id}/statistics`.
 
 If an objective in an optimization file does not specify a Privacy Engine, the Privacy Engine is not used for that
 objective.
 
-If an objective does not specify an obfuscation method, the evaluation results for that objective are not obfuscated.
+If an objective does not configure an obfuscation method, the evaluation results for that objective are not obfuscated.
 
-#### 2.3.1. Run an Optimization with a simulated Privacy Engine
+### 3.1. Run an Optimization with a simulated Privacy Engine
 
 If an objective specifies an obfuscation method but does not specify a Privacy Engine, the Optimizer simulates the
 Privacy Engine.
@@ -88,7 +88,7 @@ Privacy Engine.
 Use the files from the `obfuscation_<obfuscation_type>` subfolders that include `_simulated.json` in the filename.
 Follow the procedure described above.
 
-#### 2.3.2. Run an Optimization with the Privacy Engine
+### 3.2. Run an Optimization with the Privacy Engine
 
 If an objective specifies a Privacy Engine, the Privacy Engine is used.
 
