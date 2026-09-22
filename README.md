@@ -1,57 +1,97 @@
 # opti-flex
 
-## Implementation of the Optimizer
+## 1. Implementation of the Optimizer
 
-- The folder `app` contains the source code. The `main.py` file is the application file.
-- The folder `test_data` contains synthetic optimization files for demonstration. The subfolders `obfuscation_<obfuscation_type>` provide additional optimization files for demonstrating obfuscation. For each obfuscation type, the corresponding subfolder contains two optimization files: one configured for use with the Privacy Engine (expect the Privacy Engine to be available at `http://127.0.0.1:80` and the encoding service at `http://127.0.0.1:88`), and another configured for simulating the Privacy Engine.
-- The file `config.properties` supports two configurable settings: application mode and individuals in statistics.
-  - The application mode can be set to either `dev` or `ops`: In `dev` mode, the Optimizer generates the same UUID for every optimization run. In `ops` mode, the Optimizer generates a unique UUID for every optimization run.
-  - The `individuals` setting is a boolean (`True` or `False`) that determines whether the full population is included in the optimization statistics: If `True`, all individuals are included in the statistics; otherwise, the individuals are not included. By default, this setting is `False` to minimize storage usage.
-- **`False`**: Excludes the full population to reduce storage requirements.
-- The file `Dockerfile` can be used to create a Docker image of the Optimizer.
-- The file `requirements.txt` contains the requirements to be installed.
+- The `app` folder contains the source code of the Optimizer. The `main.py` file serves as the application entry point.
+- The `test_data` folder contains synthetic optimization files for demonstration purposes. The
+  `obfuscation_<obfuscation_type>` subfolders contain additional optimization files for demonstrating obfuscation. For
+  each obfuscation type, the corresponding subfolder contains two optimization files: one configured to use the Privacy
+  Engine (which is expected to be available at `http://127.0.0.1:80`) and the encoding service (which is expected to be
+  available at `http://127.0.0.1:88`), and another configured to simulate the Privacy Engine.
+- The `config.properties` file supports two configurable settings: the application mode and whether all individuals are
+  included in the optimization statistics.
+    - The application mode can be set to either `dev` or `ops`: In `dev` mode, the Optimizer generates the same UUID for
+      every optimization run. In `ops` mode, the Optimizer generates a unique UUID for every optimization run.
+    - The `individuals` setting is a boolean (`True` or `False`) that determines whether the full population is included
+      in the optimization statistics: If `True`, all individuals are included in the statistics; otherwise, dominated
+      individuals are not included. By default, this setting is `False` to minimize storage usage.
+- The `Dockerfile` can be used to build a Docker image for the Optimizer.
+- The `requirements.txt` file contains the dependencies required by the Optimizer.
 
-**Note:** The statistics never include the encoding of individuals to minimize storage usage. The encoding is only available for individuals in the result. If you need access to the encoding of individuals within the statistics, you must (1) remove the attribute `encoding` from class `Individual`, (2) add the attribute `encoding` to class `IndividualBase`, and (3) add a corresponding mapping from the attribute `encoding` in class `Individual` to attribute `encoding` in class `IndividualDTO` in the function `to_dto` in class `IndividualMapper`, i.e., `return IndividualDTO(encoding=obj.encoding, ...)`
+**Note:** The statistics never include the encoding of individuals to minimize storage usage. The encoding is only
+available for individuals in the optimization result. If you need access to the encoding of individuals in the
+optimization statistics, you must:
 
-## Running the Optimizer
+1. Remove the `encoding` attribute from the `Individual` class,
+2. Add the `encoding` attribute to the `IndividualBase` class, and
+3. Add a corresponding mapping from the `encoding` attribute of the `Individual` class to the `encoding` attribute of
+   the `IndividualDTO` class in the `to_dto` function of the `IndividualMapper` class, i.e.,
+   `return IndividualDTO(encoding=obj.encoding, ...)`.
 
-### API
+## 2. Running the Optimizer
 
-The Optimizer is implemented using FastAPI with the following interfaces (Swagger documentation available on /docs):
+### 2.1. API
 
-- GET /optimizations to retrieve all optimizations
-- GET /optimizations/{optimization_id} to retrieve a specific optimization
-- GET /optimizations/{optimization_id}/statistics to retrieve the statistics of a specific optimization
-- GET /optimizations/{optimization_id}/result to retrieve the result of a specific optimization
-- POST /optimizations to create an optimization (requires an optimization file in the request body)
-- PUT /optimizations/{optimization_id}/start to start a specific optimization asynchronously
-- PUT /optimizations/{optimization_id}/start/wait to start a specific optimization synchronously
-- PUT /optimizations/{optimization_id}/abort to abort a specific running optimization
-- DELETE /optimizations/{optimization_id} to delete a specific optimization
+The Optimizer is implemented using FastAPI and provides the following endpoints. Swagger documentation is available at
+`/docs`:
 
-### Docker
-#### Build the Image
+- `GET /optimizations`: Retrieves all optimizations.
+- `GET /optimizations/{optimization_id}`: Retrieves a specific optimization.
+- `GET /optimizations/{optimization_id}/statistics`: Retrieves the statistics for a specific optimization.
+- `GET /optimizations/{optimization_id}/result`: Retrieves the result of a specific optimization.
+- `POST /optimizations`: Creates a new optimization. Requires an optimization file in the request body.
+- `PUT /optimizations/{optimization_id}/start`: Starts a specific optimization asynchronously.
+- `PUT /optimizations/{optimization_id}/start/wait`: Starts a specific optimization synchronously and waits for it to
+  complete.
+- `PUT /optimizations/{optimization_id}/abort`: Aborts a specific running optimization.
+- `DELETE /optimizations/{optimization_id}`: Deletes a specific optimization.
+
+### 2.2. Docker
+
+#### 2.2.1. Build the Image
+
 ```bash
 docker build -t <IMAGE-NAME> .
 ```
 
-#### Run the Container
+#### 2.2.2. Run the Container
+
 ```bash
 docker run -d --name <CONTAINER-NAME> -p 8001:8001 <IMAGE-NAME>
 ```
 
 Uvicorn server for the Optimizer will be running on `http://127.0.0.1:8001`.
 
-#### Run an Optimization
+### 2.3. Run an Optimization
 
-You can run optimizations using the example optimization files from `test_data` via e.g. the Swagger UI:
+You can run optimizations using the optimization files from `test_data`, for example, via the Swagger UI:
 
-- Create the optimization via HTTP POST /optimizations and provide the content of an optimization file in the request body. The Optimizer returns a UUID as the optimization ID.
-- Start the optimization via HTTP PUT /optimizations/{optimization_id}/start (asynchronously) or /optimizations/{optimization_id}/start/wait (synchronously).
-- You can request the current optimization result via HTTP GET /optimizations/{optimization_id}/result and statistics via HTTP GET /optimizations/{optimization_id}/statistics.
+- Create the optimization by sending an HTTP `POST` request to `/optimizations` and providing the contents of an
+  optimization file in the request body. The Optimizer returns a UUID as the optimization ID.
+- Start the optimization by sending an HTTP `PUT` request to `/optimizations/{optimization_id}/start` (asynchronously)
+  or `/optimizations/{optimization_id}/start/wait` (synchronously).
+- Retrieve the current optimization result by sending an HTTP `GET` request to
+  `/optimizations/{optimization_id}/result`.
+- Retrieve the optimization statistics by sending an HTTP `GET` request to
+  `/optimizations/{optimization_id}/statistics`.
 
-#### Run an Optimization with the Privacy Engine
+If an objective in an optimization file does not specify a Privacy Engine, the Privacy Engine is not used for that
+objective.
 
-See [Privacy Engine](https://anonymous.4open.science/r/privacy-engine-4B6C) for setup and example optimization files in `test_data` with a file name including `privacy_engine`. These files are configured assuming a Privacy Engine instance is running on localhost port 80 (`http://127.0.0.1:80`) and the encoding service on localhost port 88 (`http://127.0.0.1:88`).
+If an objective does not specify an obfuscation method, the evaluation results for that objective are not obfuscated.
 
+#### 2.3.1. Run an Optimization with a simulated Privacy Engine
 
+If an objective specifies an obfuscation method but does not specify a Privacy Engine, the Optimizer simulates the
+Privacy Engine.
+
+Use the files from the `obfuscation_<obfuscation_type>` subfolders that include `_simulated.json` in the filename.
+Follow the procedure described above.
+
+#### 2.3.2. Run an Optimization with the Privacy Engine
+
+If an objective specifies a Privacy Engine, the Privacy Engine is used.
+
+Download and run the [Privacy Engine](https://doi.org/10.5281/zenodo.20748035). Use the files from the
+`obfuscation_<obfuscation_type>` subfolders that include `_privacy_engine.json` in the filename. Follow the procedure
+described above.
